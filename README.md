@@ -61,7 +61,7 @@ public class TestStringObject {
     }  
 }
 ```
-You can annotate every field or mehtod of the class. 
+You can annotate every field or mehtod of the class with  `@CompareCriteria`. This will tell sc to use it in the `compare` method
 
 **Note:** if you have multiple values to compare you have to specify the priority of these values. The higher the value the more important is it to compare. 
 To use it create the Comparator just like this:
