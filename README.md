@@ -6,34 +6,34 @@ A simple way to generate a comparator in Java
 ------------------------
 
 ##Description
-SmartComparator gives you the ability to Generate a java.util.Comparator for your class. You don't have to write your own Comparator or implement Comparable anymore. Just create a new SmartComparator and tell it which attributes or methods are used to compare. 
+SmartComparator gives you the ability to generate a java.util.Comparator for your class. You don't have to write your own Comparator or implement Comparable anymore. Just create a new SmartComparator and tell it which attributes or methods are used for comparison.
 
 Sorting with multiple attributes is also possible.
 
 ##Compile
-You need JDK 1.7 and Maven to compile the Project.
+You need JDK 1.7 and Maven to compile the project.
 ```shell
     mvn clean
     mvn compile
 ```
 ##Usage
-There are multiple ways to use SmartComparator.
+There are multiple ways to the use SmartComparator.
 
 ###Using the constructor
 ```Java
     SmartComparator<YourDataClass> sc = new SmartComparator<>(YourDataClass.class, new MethodNameGenerator("getVal1").add("getVal2",SortType.DESC).getList());
 ```
 
-Using MethodNameGenerator gives you a comfortable way to generate a list or an array of MethodNameRecord, which are used by SmartComparator.
-The String arguments in MethodNameGenerator are the Name of the Methods which should be used to compare your Objects. SortType is an optional argument. Default is ascended but you can switch to descended, which will reverse the order for the given Method.
+Using MethodNameGenerator gives you a comfortable way to generate a list or an array of MethodNameRecord, which are used by the SmartComparator.
+The String arguments in MethodNameGenerator are the name of the methods which should be used to compare your objects. SortType is an optional argument. Default is ascended but you can switch to descended, which will reverse the order for the given method.
 
 The order of the parameters specify how the comparator should work. In this case it will first compare val1 of the class. If the values are equal it uses val2 to compare objects.
 
-It is also possible to Cange the sorting behaviour.
+It is also possible to change the sorting behaviour.
 ```Java
     sc.changeSorting(new MethodNameGenerator("getVal2","getVal1").getList());
 ```
-Now the Comparator will first compare against val2 and if its equal against val1.
+Now the Comparator will first compare against val2 and if it's equal against val1.
 
 ##Using Anotations
 Example: you have this class
@@ -61,7 +61,7 @@ public class TestStringObject {
     }  
 }
 ```
-You can annotate every field or mehtod of the class with  `@CompareCriteria`. This will tell sc to use it in the `compare` method
+You can annotate every field or mehtod of the class with  `@CompareCriteria`. This will tell SmartComparator(sc) to use it in the `compare` method
 
 **Note:** if you have multiple values to compare you have to specify the priority of these values. The higher the value the more important is it to compare. 
 To use it create the Comparator just like this:
@@ -110,10 +110,10 @@ To use it create the SmartComparator just like this:
     SmartComparator sc = new SmartComparator(TestNamedSortsObject.class, "allASC");
 ```
 
-If you want to change the sorting behaviour just use the `changeSorting` Method:
+If you want to change the sorting behaviour just use the `changeSorting` method:
 ```Java
     sc.changeSorting("mixed");
 ```
 
 #More information
-For more Informations about this project look at http://www.penta-it.com/
+For more information's about this project look at http://www.penta-it.com/

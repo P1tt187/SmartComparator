@@ -8,7 +8,10 @@ import org.testng.annotations.Test;
 import smartcomparator.dataclasses.TestStringObject;
 import smartcomparator.helperclasses.MethodNameGenerator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -53,7 +56,7 @@ public class P1tt187SmartComparatorTest {
 
     @Test
     public void testCompare2() throws Exception {
-        SmartComparator<TestStringObject> sc = new SmartComparator<>(TestStringObject.class,new MethodNameGenerator("getVal").getList());
+        SmartComparator<TestStringObject> sc = new SmartComparator<>(TestStringObject.class, new MethodNameGenerator("getVal").getList());
         Collections.sort(list, sc);
         TestStringObject[] expected = new TestStringObject[]{
                 new TestStringObject("a", 9),
@@ -67,7 +70,7 @@ public class P1tt187SmartComparatorTest {
 
     @Test
     public void testCompareNegative() throws Exception {
-        SmartComparator<TestStringObject> sc = new SmartComparator<>(TestStringObject.class,new MethodNameGenerator("getVal").getArray());
+        SmartComparator<TestStringObject> sc = new SmartComparator<>(TestStringObject.class, new MethodNameGenerator("getVal").getArray());
         Collections.sort(list, sc);
         TestStringObject[] expected = new TestStringObject[]{new TestStringObject("a", 9),
                 new TestStringObject("aa", 2), new TestStringObject("bb", 3), new TestStringObject("aa", 1),
@@ -81,67 +84,5 @@ public class P1tt187SmartComparatorTest {
         Assert.fail("no exception was thrown");
     }
 
-    /*
-    @Test
-    public void testPerformance() throws Exception {
 
-        double numberOfRuns = 1000;
-        double meanSc = 0;
-        double meanStandard = 0;
-        List<TestStringObject> list2 = null;
-        for (int idx = 0; idx < numberOfRuns; idx++) {
-            list = new ArrayList<>();
-
-            for (int i = 0; i < 10000; i++) {
-                list.add(new TestStringObject(UUID.randomUUID().toString(), (int) ((Math.random() * 1000) % 1000)));
-            }
-            list2 = new ArrayList<>(list);
-
-            SmartComparator sc = new SmartComparator(TestStringObject.class);
-            Date beforeSc = new Date();
-            Collections.sort(list, sc);
-            Date afterSc = new Date();
-
-            Comparator<TestStringObject> standardComparator = new Comparator<TestStringObject>() {
-                @Override
-                public int compare(TestStringObject o1, TestStringObject o2) {
-
-                    int ret = -0;
-                    if (o1 == null && o2 == null) {
-                        return ret;
-                    }
-
-                    if (o1.getVal() == null && o1.getVal() == o2.getVal()) {
-                        ret = 0;
-                    } else if (o1.getVal() != null) {
-                        ret = o1.getVal().compareTo(o2.getVal());
-                        if (ret != 0) {
-                            return ret;
-                        }
-                    } else {
-                        return -1;
-                    }
-
-                    ret = new Integer(o1.getVal2()).compareTo(o2.getVal2());
-
-                    return ret;  //To change body of implemented methods use File | Settings | File Templates.
-                }
-            };
-
-            Date beforeStandard = new Date();
-            Collections.sort(list2, standardComparator);
-            Date afterStandard = new Date();
-
-            meanSc += afterSc.getTime() - beforeSc.getTime();
-            meanStandard += afterStandard.getTime() - beforeStandard.getTime();
-            Assert.assertArrayEquals(list.toArray(new TestStringObject[list.size()]), list2.toArray(new TestStringObject[list2.size()]));
-        }
-
-        meanSc = meanSc / numberOfRuns;
-        meanStandard = meanStandard / numberOfRuns;
-
-        System.out.println("meanSc: " + meanSc + " meanStandard: " + meanStandard);
-
-
-    }   */
 }
