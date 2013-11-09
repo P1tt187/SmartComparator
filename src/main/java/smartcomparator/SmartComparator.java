@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 /**
- * @author USER
+ * @author NathaniellsFreak
  */
 public class SmartComparator<T> implements Comparator<T> {
 
@@ -67,7 +67,6 @@ public class SmartComparator<T> implements Comparator<T> {
     // -----------------------------------------------------------------------------------------------------------------
 
     public void changeSorting(boolean fieldsUsed, String[] methodNames, SortType[] sortTypes) {
-        //sortTypeMap = new HashMap<>();
         if (fieldsUsed) {
             /**if you don't have specified a get method the comparator generates the name*/
             for (int i = 0; i < methodNames.length; i++) {
@@ -129,8 +128,8 @@ public class SmartComparator<T> implements Comparator<T> {
                     Method meth = this.clazz.getMethod(val.getMethodName());
                     Class clazz = meth.getReturnType();
 
-                    if(clazz.equals(void.class) || clazz.equals(Void.class)){
-                       throw new NotAllowedTypeException("The return type " + clazz.getName() + " is not allowed");
+                    if (clazz.equals(void.class) || clazz.equals(Void.class)) {
+                        throw new NotAllowedTypeException("The return type " + clazz.getName() + " is not allowed");
                     }
 
                     val.setMethod(meth);
@@ -147,11 +146,9 @@ public class SmartComparator<T> implements Comparator<T> {
                         val.retType = castObjects(clazz);
                         val.primitive = true;
                     }
-                }
-                catch (NoSuchMethodException ex){
-                    throw new MethodNotFoundException("the specified Method does not Exist",ex);
-                }
-                catch (Exception ex) {
+                } catch (NoSuchMethodException ex) {
+                    throw new MethodNotFoundException("the specified Method does not Exist", ex);
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }

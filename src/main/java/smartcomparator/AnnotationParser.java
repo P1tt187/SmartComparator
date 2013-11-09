@@ -10,11 +10,9 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 /**
- * Created with IntelliJ IDEA.
- * User: fabian
- * Date: 24.10.13
- * Time: 18:02
- * To change this template use File | Settings | File Templates.
+ * @author fabian
+ *         Date: 24.10.13
+ *         Time: 18:02
  */
 final class AnnotationParser {
     /**
@@ -32,7 +30,7 @@ final class AnnotationParser {
      */
     public static List<MethodNameRecord> parseTypeAnnotations(final Class<?> clazz, String namedQuery) {
         if (!clazz.isAnnotationPresent(NamedSorts.class)) {
-            throw new IllegalArgumentException("No NamedSours annotation was found");
+            throw new IllegalArgumentException("No NamedSorts annotation was found");
         }
         if (namedQuery == null) {
             throw new NullPointerException("namedQuery must not be null");
@@ -72,7 +70,7 @@ final class AnnotationParser {
          *  key - priority
          *  value - methodName and sortType
          *  */
-        Map<Integer, MethodNameRecord> methods = new HashMap<Integer, MethodNameRecord>();
+        Map<Integer, MethodNameRecord> methods = new HashMap<>();
 
         if (clazz.isPrimitive()) {
             throw new IllegalArgumentException("you can only generate a comparator for own classes, not primitives or standard classes");
