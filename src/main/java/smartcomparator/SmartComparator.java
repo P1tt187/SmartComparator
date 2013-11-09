@@ -1,12 +1,11 @@
 package smartcomparator;
 
+import smartcomparator.exceptions.MethodNotFoundException;
+import smartcomparator.exceptions.NotAllowedTypeException;
 import smartcomparator.helperclasses.SortType;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author USER
@@ -33,19 +32,13 @@ public class SmartComparator<T> implements Comparator<T> {
     }
 
     public SmartComparator(Class<T> clazz, boolean fieldsUsed, List<MethodNameRecord> methodNames) {
-        list = methodNames;
-        if (fieldsUsed){
-            for (MethodNameRecord methodItem : methodNames){
-                methodItem.setMethodName(addGet(methodItem.getMethodName()));
-            }
-        }
         this.clazz = clazz;
-        this.analyzeClassReturnTypes();
+        changeSorting(fieldsUsed, methodNames);
 
     }
 
     public SmartComparator(Class<T> clazz, List<MethodNameRecord> methodNames) {
-         this(clazz,false,methodNames);
+        this(clazz, false, methodNames);
     }
 
     public SmartComparator(Class<T> clazz, MethodNameRecord[] methodNames) {
@@ -53,7 +46,6 @@ public class SmartComparator<T> implements Comparator<T> {
         this.clazz = clazz;
         this.analyzeClassReturnTypes();
     }
-
 
 
     public SmartComparator(Class<T> clazz, boolean fieldsUsed, String[] methodNames, SortType[] sortTypes) {
@@ -70,7 +62,6 @@ public class SmartComparator<T> implements Comparator<T> {
         this.clazz = clazz;
         changeSorting(fieldsUsed, methodNames, sortTypes);
     }
-
 
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -103,7 +94,6 @@ public class SmartComparator<T> implements Comparator<T> {
         return methodName;
     }
 
-
     public void changeSorting(String namedQuery) {
         if (namedQuery == null || namedQuery.isEmpty()) {
             throw new NullPointerException("namedQuery must not be null");
@@ -112,10 +102,23 @@ public class SmartComparator<T> implements Comparator<T> {
         this.analyzeClassReturnTypes();
     }
 
-    public void setSortlist(Class<T> clazz, String... sortlist) {
-        for (String t : sortlist)
-            list.add(new MethodNameRecord(t, SortType.ASC));
-        this.clazz = clazz;
+    public void changeSorting(MethodNameRecord[] methodNames) {
+        List<MethodNameRecord> list = new LinkedList<>();
+        Collections.addAll(list, methodNames);
+        this.changeSorting(list);
+    }
+
+    public void changeSorting(List<MethodNameRecord> methodNames) {
+        this.changeSorting(false, methodNames);
+    }
+
+    public void changeSorting(boolean fieldsUsed, List<MethodNameRecord> methodNames) {
+        if (fieldsUsed) {
+            for (MethodNameRecord methodItem : methodNames) {
+                methodItem.setMethodName(addGet(methodItem.getMethodName()));
+            }
+        }
+        this.list = methodNames;
         this.analyzeClassReturnTypes();
     }
 
@@ -125,21 +128,30 @@ public class SmartComparator<T> implements Comparator<T> {
                 try {
                     Method meth = this.clazz.getMethod(val.getMethodName());
                     Class clazz = meth.getReturnType();
+
+                    if(clazz.equals(void.class) || clazz.equals(Void.class)){
+                       throw new NotAllowedTypeException("The return type " + clazz.getName() + " is not allowed");
+                    }
+
                     val.setMethod(meth);
                     if (Object.class.isAssignableFrom(clazz)) {
                         if (Comparable.class.isAssignableFrom(clazz)) {
-                            val.retType=clazz;
+                            val.retType = clazz;
                         } else {
                             // else it is not assignable to Comparable  ==> Element löschen
                             list.remove(val);
                         }
                     } else {
                         // val.setRetType(castObjects(clazz));
-                        val.retClassConstructor=castObjects(clazz).getConstructor(clazz);
-                        val.retType=castObjects(clazz);
-                        val.primitive= true;
+                        val.retClassConstructor = castObjects(clazz).getConstructor(clazz);
+                        val.retType = castObjects(clazz);
+                        val.primitive = true;
                     }
-                } catch (Exception ex) {
+                }
+                catch (NoSuchMethodException ex){
+                    throw new MethodNotFoundException("the specified Method does not Exist",ex);
+                }
+                catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }

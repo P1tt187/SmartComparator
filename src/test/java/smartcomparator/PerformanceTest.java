@@ -34,7 +34,8 @@ public class PerformanceTest {
                     generator.nextFloat(), generator.nextFloat(),
                     generator.nextDouble(), generator.nextDouble()));
         }
-        Collections.shuffle(nativeList);        
+        Collections.shuffle(nativeList);
+
 
         scList = new LinkedList<>(nativeList);
 
