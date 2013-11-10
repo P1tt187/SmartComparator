@@ -6,11 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: fabian
- * Date: 29.10.13
- * Time: 00:48
- * To change this template use File | Settings | File Templates.
+ * @author Fabian
+ *         Date: 29.10.13
+ *         Time: 00:48
+ *         To change this template use File | Settings | File Templates.
  */
 public class MethodNameGenerator {
 
@@ -20,8 +19,8 @@ public class MethodNameGenerator {
         this(name, SortType.ASC);
     }
 
-    public MethodNameGenerator(String... names){
-        for (String name: names){
+    public MethodNameGenerator(String... names) {
+        for (String name : names) {
             add(name);
         }
     }
@@ -39,7 +38,7 @@ public class MethodNameGenerator {
         return this;
     }
 
-    public MethodNameRecord[] getArray(){
+    public MethodNameRecord[] getArray() {
         return list.toArray(new MethodNameRecord[list.size()]);
     }
 

@@ -21,7 +21,10 @@ There are multiple ways to the use SmartComparator.
 
 ###Using the constructor
 ```Java
-    SmartComparator<YourDataClass> sc = new SmartComparator<>(YourDataClass.class, new MethodNameGenerator("getVal1").add("getVal2",SortType.DESC).getList());
+    SmartComparator<YourDataClass> sc =
+           new SmartComparator<>(YourDataClass.class,
+            new MethodNameGenerator("getVal1")
+             .add("getVal2",SortType.DESC).getList());
 ```
 
 Using MethodNameGenerator gives you a comfortable way to generate a list or an array of MethodNameRecord, which are used by the SmartComparator.
