@@ -53,6 +53,75 @@ public class NathenielsFreakSmartComparatorTest {
     }
 
     @Test
+    public void testCreateStringArray() throws Exception {
+        SmartComparator<TestDataObject> sc = new SmartComparator<>(TestDataObject.class, new String[]{"getVal1", "getVal2"});
+        TestDataObject[] expectedResult = new TestDataObject[]{
+                new TestDataObject() {{
+                    setVal1(3);
+                    setVal2(3);
+                }},
+                new TestDataObject() {{
+                    setVal1(3);
+                    setVal2(4);
+                }},
+                new TestDataObject() {{
+                    setVal1(5);
+                    setVal2(5);
+                }},
+                new TestDataObject() {{
+                    setVal1(9);
+                }},
+                new TestDataObject() {{
+                    setVal1(15);
+                }}
+        };
+        Collections.sort(list, sc);
+        boolean equal = true;
+        for (int i = 0; i < list.size(); i++) {
+            equal = list.get(i).hashCode() == expectedResult[i].hashCode();
+            if (!equal) {
+                break;
+            }
+        }
+        Assert.assertEquals(equal, true);
+    }
+
+    @Test
+    public void testCreateMethodNameRecordArray() throws Exception {
+        SmartComparator<TestDataObject> sc = new SmartComparator<>(TestDataObject.class,
+                new MethodNameRecord[]{new MethodNameRecord("getVal1"), new MethodNameRecord("getVal2")});
+        TestDataObject[] expectedResult = new TestDataObject[]{
+                new TestDataObject() {{
+                    setVal1(3);
+                    setVal2(3);
+                }},
+                new TestDataObject() {{
+                    setVal1(3);
+                    setVal2(4);
+                }},
+                new TestDataObject() {{
+                    setVal1(5);
+                    setVal2(5);
+                }},
+                new TestDataObject() {{
+                    setVal1(9);
+                }},
+                new TestDataObject() {{
+                    setVal1(15);
+                }}
+        };
+        Collections.sort(list, sc);
+        boolean equal = true;
+        for (int i = 0; i < list.size(); i++) {
+            equal = list.get(i).hashCode() == expectedResult[i].hashCode();
+            if (!equal) {
+                break;
+            }
+        }
+        Assert.assertEquals(equal, true);
+    }
+
+    @Test
     public void testCompare() throws Exception {
         SmartComparator<TestDataObject> sc = new SmartComparator<>(TestDataObject.class, new MethodNameGenerator("getVal1").add("getVal2").getList());
         TestDataObject[] expectedResult = new TestDataObject[]{
@@ -88,7 +157,7 @@ public class NathenielsFreakSmartComparatorTest {
 
     @Test
     public void testCompare2() throws Exception {
-        SmartComparator<TestDataObject> sc = new SmartComparator<>(TestDataObject.class,true, new MethodNameGenerator("Val1").add("val2").getList());
+        SmartComparator<TestDataObject> sc = new SmartComparator<>(TestDataObject.class, true, new MethodNameGenerator("Val1").add("val2").getList());
         TestDataObject[] expectedResult = new TestDataObject[]{
                 new TestDataObject() {{
                     setVal1(3);
@@ -122,7 +191,7 @@ public class NathenielsFreakSmartComparatorTest {
 
     @Test
     public void testCompareNegative() throws Exception {
-        SmartComparator<TestDataObject> sc = new SmartComparator<>(TestDataObject.class,true, new MethodNameGenerator("val1","val2").getList());
+        SmartComparator<TestDataObject> sc = new SmartComparator<>(TestDataObject.class, true, new MethodNameGenerator("val1", "val2").getList());
         TestDataObject[] expectedResult = list.toArray(new TestDataObject[list.size()]);
 
         Collections.sort(list, sc);

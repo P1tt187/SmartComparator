@@ -16,10 +16,10 @@ public class MethodNameRecord {
 
     private String methodName;
 
-    private SortType sortType = SortType.ASC;
-     Method method;
-     Class retType;
-     boolean primitive;
+    private SortType sortType;
+    Method method;
+    Class retType;
+    boolean primitive;
     Constructor retClassConstructor;
 
     public void setMethodName(String methodName) {
@@ -28,6 +28,10 @@ public class MethodNameRecord {
 
     public String getMethodName() {
         return methodName;
+    }
+
+    public MethodNameRecord(String methodName) {
+        this(methodName, SortType.ASC);
     }
 
     public MethodNameRecord(String methodName, SortType sortType) {

@@ -43,7 +43,7 @@ public class P1tt187SmartComparatorTest {
 
     @Test
     public void testCompare() throws Exception {
-        SmartComparator<TestStringObject> sc = new SmartComparator(TestStringObject.class);
+        SmartComparator<TestStringObject> sc = new SmartComparator<>(TestStringObject.class);
         Collections.sort(list, sc);
         TestStringObject[] expected = new TestStringObject[]{new TestStringObject("a", 9),
                 new TestStringObject("aa", 1), new TestStringObject("aa", 2), new TestStringObject("bb", 3),

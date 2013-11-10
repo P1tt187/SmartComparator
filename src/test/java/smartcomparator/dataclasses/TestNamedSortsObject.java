@@ -1,16 +1,15 @@
 package smartcomparator.dataclasses;
 
-import smartcomparator.helperclasses.SortType;
 import smartcomparator.annotations.MethodName;
 import smartcomparator.annotations.NamedSort;
 import smartcomparator.annotations.NamedSorts;
+import smartcomparator.helperclasses.SortType;
 
 /**
- * Created with IntelliJ IDEA.
- * User: fabian
- * Date: 27.10.13
- * Time: 22:09
- * To change this template use File | Settings | File Templates.
+ * @author Fabian Markert
+ *         Date: 27.10.13
+ *         Time: 22:09
+ *         To change this template use File | Settings | File Templates.
  */
 @NamedSorts({
         @NamedSort(

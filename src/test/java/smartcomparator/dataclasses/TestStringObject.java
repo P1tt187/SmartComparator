@@ -4,11 +4,9 @@ package smartcomparator.dataclasses;
 import smartcomparator.annotations.CompareCriteria;
 
 /**
- * Created with IntelliJ IDEA.
- * User: fabian
- * Date: 24.10.13
- * Time: 02:49
- * To change this template use File | Settings | File Templates.
+ * @author Fabian Markert
+ *         Date: 24.10.13
+ *         Time: 02:49
  */
 public class TestStringObject {
 

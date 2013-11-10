@@ -13,11 +13,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: fabian
- * Date: 28.10.13
- * Time: 00:09
- * To change this template use File | Settings | File Templates.
+ * @author Fabian Markert
+ *         Date: 28.10.13
+ *         Time: 00:09
  */
 public class DeclarativeSortingTests {
     private List<TestNamedSortsObject> list;
@@ -112,7 +110,7 @@ public class DeclarativeSortingTests {
 
     @Test
     public void testChangeSorting2() throws Exception {
-        SmartComparator sc = new SmartComparator(TestNamedSortsObject.class,"allASC");
+        SmartComparator sc = new SmartComparator(TestNamedSortsObject.class, "allASC");
         Collections.sort(list, sc);
         TestNamedSortsObject[] expectedResult = new TestNamedSortsObject[]{
                 new TestNamedSortsObject("aa", 1),
@@ -144,13 +142,13 @@ public class DeclarativeSortingTests {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCompareNegative() {
-        new SmartComparator(TestDataObject.class, (String)null);
+        new SmartComparator(TestDataObject.class, (String) null);
         Assert.fail("no exception was thrown");
     }
 
     @Test(expectedExceptions = NullPointerException.class)
     public void testCompareNegative2() {
-        new SmartComparator(TestNamedSortsObject.class,(String) null);
+        new SmartComparator(TestNamedSortsObject.class, (String) null);
         Assert.fail("no exception was thrown");
     }
 }
