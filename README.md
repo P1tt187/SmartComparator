@@ -5,6 +5,16 @@ A simple way to generate a comparator in Java
 
 ------------------------
 
+**Table of Contents**  
+
+- [SmartComparator](#smartcomparator)
+	- [Description](#description)
+	- [Compile](#compile)
+	- [Usage](#usage)
+		- [Using the constructor](#using-the-constructor)
+		- [Using Anotations](#using-anotations)
+		- [NamedSorts](#namedsorts)
+- [More information](#more-information)
 
 ##Description
 SmartComparator gives you the ability to generate a java.util.Comparator for your class. You don't have to write your own Comparator or implement Comparable anymore. Just create a new SmartComparator and tell it which attributes or methods are used for comparison.
