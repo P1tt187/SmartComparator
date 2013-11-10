@@ -2,6 +2,7 @@ package smartcomparator;
 
 import smartcomparator.exceptions.MethodNotFoundException;
 import smartcomparator.exceptions.NotAllowedTypeException;
+import smartcomparator.helperclasses.MethodNameGenerator;
 import smartcomparator.helperclasses.SortType;
 
 import java.lang.reflect.Method;
@@ -29,6 +30,15 @@ public class SmartComparator<T> implements Comparator<T> {
         list = AnnotationParser.parseElementAnnotations(clazz);
         this.clazz = clazz;
         this.analyzeClassReturnTypes();
+    }
+
+    public SmartComparator(Class<T> clazz, String[] methodNames) {
+        this.clazz = clazz;
+        MethodNameGenerator nameGenerator = new MethodNameGenerator();
+        for (String methodName : methodNames) {
+            nameGenerator.add(methodName);
+        }
+        changeSorting(nameGenerator.getList());
     }
 
     public SmartComparator(Class<T> clazz, boolean fieldsUsed, List<MethodNameRecord> methodNames) {
