@@ -5,16 +5,6 @@ A simple way to generate a comparator in Java
 
 ------------------------
 
-**Table of Contents**  
-
-- [SmartComparator](#smartcomparator)
-	- [Description](#description)
-	- [Compile](#compile)
-	- [Usage](#usage)
-		- [Using the constructor](#using-the-constructor)
-	- [Using Anotations](#using-anotations)
-	- [NamedSorts](#namedsorts)
-- [More information](#more-information)
 
 ##Description
 SmartComparator gives you the ability to generate a java.util.Comparator for your class. You don't have to write your own Comparator or implement Comparable anymore. Just create a new SmartComparator and tell it which attributes or methods are used for comparison.
@@ -49,7 +39,7 @@ It is also possible to change the sorting behaviour.
 ```
 Now the Comparator will first compare against val2 and if it's equal against val1.
 
-##Using Anotations
+###Using Anotations
 Example: you have this class
 ```Java
 public class TestStringObject {
@@ -82,7 +72,7 @@ To use it create the Comparator just like this:
 ```Java
     Comparator<TestStringObject> sc = new SmartComparator(TestStringObject.class);
 ```
-##NamedSorts
+###NamedSorts
 NamedSorts gives you the ability to predefine multiple sets of sorting criteriars and allows you easly to switch between them.
 
 Example:
