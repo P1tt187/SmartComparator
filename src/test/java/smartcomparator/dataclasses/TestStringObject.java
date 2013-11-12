@@ -12,22 +12,21 @@ public class TestStringObject {
 
     @CompareCriteria(priority = 2)
     private String val;
-
     private int val2;
 
     public TestStringObject(String val) {
         this.val = val;
     }
 
+    public TestStringObject(String val, int val2) {
+        this.val = val;
+        this.val2 = val2;
+    }
+
     @CompareCriteria(priority = 1)
     public int getVal2() {
 
         return val2;
-    }
-
-    public TestStringObject(String val, int val2) {
-        this.val = val;
-        this.val2 = val2;
     }
 
     @Override
@@ -38,9 +37,8 @@ public class TestStringObject {
         TestStringObject that = (TestStringObject) o;
 
         if (val2 != that.val2) return false;
-        if (val != null ? !val.equals(that.val) : that.val != null) return false;
+        return !(val != null ? !val.equals(that.val) : that.val != null);
 
-        return true;
     }
 
     @Override
@@ -49,7 +47,6 @@ public class TestStringObject {
         result = 31 * result + val2;
         return result;
     }
-
 
     public String getVal() {
         return val;

@@ -54,7 +54,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator(TestWrapper.class, "nativeBoolean");
+        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "nativeBoolean");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -78,10 +78,10 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns));
+        printResults(meanSc, meanStandard, numberOfRuns);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testNativeBool")
     public void testWrapperBool() throws Exception {
         System.out.println("wrapped bool");
         double meanSc = 0;
@@ -89,7 +89,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator(TestWrapper.class, "wrapperBoolean");
+        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "wrapperBoolean");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -113,10 +113,10 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns));
+        printResults(meanSc, meanStandard, numberOfRuns);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testWrapperBool")
     public void testNativeCharacter() throws Exception {
         System.out.println("native char");
         double meanSc = 0;
@@ -124,7 +124,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator(TestWrapper.class, "nativeChar");
+        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "nativeChar");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -148,10 +148,10 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns));
+        printResults(meanSc, meanStandard, numberOfRuns);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testNativeCharacter")
     public void testWrapperCharacter() throws Exception {
         System.out.println("wrapped char");
 
@@ -160,7 +160,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator(TestWrapper.class, "wrapperChar");
+        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "wrapperChar");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -184,10 +184,10 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns));
+        printResults(meanSc, meanStandard, numberOfRuns);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testWrapperCharacter")
     public void testNativeShort() throws Exception {
         System.out.println("native short");
         double meanSc = 0;
@@ -195,7 +195,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator(TestWrapper.class, "nativeShort");
+        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "nativeShort");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -219,10 +219,10 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns));
+        printResults(meanSc, meanStandard, numberOfRuns);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testNativeShort")
     public void testWrapperShort() throws Exception {
         System.out.println("wrapped short");
 
@@ -231,7 +231,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator(TestWrapper.class, "wrapperShort");
+        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "wrapperShort");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -255,10 +255,10 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns));
+        printResults(meanSc, meanStandard, numberOfRuns);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testWrapperShort")
     public void testNativeInt() throws Exception {
         System.out.println("native int");
         double meanSc = 0;
@@ -266,7 +266,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator(TestWrapper.class, "nativeInt");
+        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "nativeInt");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -290,10 +290,10 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns));
+        printResults(meanSc, meanStandard, numberOfRuns);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testNativeInt")
     public void testWrapperInt() throws Exception {
         System.out.println("wrapped int");
 
@@ -302,7 +302,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator(TestWrapper.class, "wrapperInt");
+        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "wrapperInt");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -326,10 +326,10 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns));
+        printResults(meanSc, meanStandard, numberOfRuns);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testWrapperInt")
     public void testNativeLong() throws Exception {
         System.out.println("native Long");
 
@@ -338,7 +338,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator(TestWrapper.class, "nativeLong");
+        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "nativeLong");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -362,10 +362,10 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns));
+        printResults(meanSc, meanStandard, numberOfRuns);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testNativeLong")
     public void testWrapperLong() throws Exception {
         System.out.println("wrapped Long");
 
@@ -374,7 +374,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator(TestWrapper.class, "wrapperLong");
+        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "wrapperLong");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -398,10 +398,10 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns));
+        printResults(meanSc, meanStandard, numberOfRuns);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testWrapperLong")
     public void testNativeFloat() throws Exception {
         System.out.println("native Float");
 
@@ -410,7 +410,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator(TestWrapper.class, "nativeFloat");
+        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "nativeFloat");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -434,10 +434,10 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns));
+        printResults(meanSc, meanStandard, numberOfRuns);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testNativeFloat")
     public void testWrapperFloat() throws Exception {
         System.out.println("wrapped Float");
 
@@ -446,7 +446,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator(TestWrapper.class, "wrapperFloat");
+        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "wrapperFloat");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -470,10 +470,10 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns));
+        printResults(meanSc, meanStandard, numberOfRuns);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testWrapperFloat")
     public void testNativeDouble() throws Exception {
         System.out.println("native Double");
 
@@ -483,7 +483,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator(TestWrapper.class, "nativeDouble");
+        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "nativeDouble");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -507,10 +507,10 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns));
+        printResults(meanSc, meanStandard, numberOfRuns);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testNativeDouble")
     public void testWrapperDouble() throws Exception {
         System.out.println("wrapped Double");
 
@@ -544,12 +544,17 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns));
+        printResults(meanSc, meanStandard, numberOfRuns);
     }
 
-    @Test
+    private void printResults(double meanSc, double meanStandard, double numberOfRuns) {
+        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns) + " Ratio: " + (meanSc / meanStandard));
+    }
+
+    @Test(dependsOnMethods = "testWrapperDouble")
     public void testPerformance() throws Exception {
 
+        System.out.println("testPerformance");
         double numberOfRuns = 1000;
         double meanSc = 0;
         double meanStandard = 0;
@@ -565,7 +570,7 @@ public class PerformanceTest {
             }
             list2 = new ArrayList<>(list);
 
-            SmartComparator sc = new SmartComparator(TestStringObject.class);
+            SmartComparator sc = new SmartComparator<>(TestStringObject.class);
             Date beforeSc = new Date();
             Collections.sort(list, sc);
             Date afterSc = new Date();
@@ -580,7 +585,7 @@ public class PerformanceTest {
                     }
 
                     if (o1.getVal() == null && o1.getVal() == o2.getVal()) {
-                        ret = 0;
+                        return 0;
                     } else if (o1.getVal() != null) {
                         ret = o1.getVal().compareTo(o2.getVal());
                         if (ret != 0) {
@@ -590,7 +595,7 @@ public class PerformanceTest {
                         return -1;
                     }
 
-                    ret = new Integer(o1.getVal2()).compareTo(o2.getVal2());
+                    ret = Integer.valueOf(o1.getVal2()).compareTo(o2.getVal2());
 
                     return ret;  //To change body of implemented methods use File | Settings | File Templates.
                 }
@@ -605,10 +610,7 @@ public class PerformanceTest {
             Assert.assertArrayEquals(list.toArray(new TestStringObject[list.size()]), list2.toArray(new TestStringObject[list2.size()]));
         }
 
-        meanSc = meanSc / numberOfRuns;
-        meanStandard = meanStandard / numberOfRuns;
-
-        System.out.println("meanSc: " + meanSc + " meanStandard: " + meanStandard);
+        printResults(meanSc, meanStandard, numberOfRuns);
 
 
     }

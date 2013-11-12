@@ -2,7 +2,6 @@ package smartcomparator;
 
 import smartcomparator.helperclasses.SortType;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 /**
@@ -19,8 +18,6 @@ public class MethodNameRecord {
     private SortType sortType;
     Method method;
     Class retType;
-    boolean primitive;
-    Constructor retClassConstructor;
 
     public void setMethodName(String methodName) {
         this.methodName = methodName;

@@ -5,7 +5,6 @@ import smartcomparator.exceptions.NotAllowedTypeException;
 import smartcomparator.helperclasses.MethodNameGenerator;
 import smartcomparator.helperclasses.SortType;
 
-import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -16,11 +15,11 @@ public class SmartComparator<T> implements Comparator<T> {
     // -----------------------------------------------------------------------------------------------------------------
 
     private Class<T> clazz = null;
-    private List<MethodNameRecord> list = new ArrayList<MethodNameRecord>();
+    private List<MethodNameRecord> list = new ArrayList<>();
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    public SmartComparator(Class clazz, String namedQuery) {
+    public SmartComparator(Class<T> clazz, String namedQuery) {
         list = AnnotationParser.parseTypeAnnotations(clazz, namedQuery);
         this.clazz = clazz;
         this.analyzeClassReturnTypes();
@@ -135,27 +134,22 @@ public class SmartComparator<T> implements Comparator<T> {
         if (list != null) {
             for (MethodNameRecord val : list) {
                 try {
-                    Method meth = this.clazz.getMethod(val.getMethodName());
-                    Class clazz = meth.getReturnType();
+                    Class clazz = this.clazz.getMethod(val.getMethodName()).getReturnType();
 
                     if (clazz.equals(void.class) || clazz.equals(Void.class)) {
                         throw new NotAllowedTypeException("The return type " + clazz.getName() + " is not allowed");
                     }
 
-                    val.setMethod(meth);
-                    if (Object.class.isAssignableFrom(clazz)) {
-                        if (Comparable.class.isAssignableFrom(clazz)) {
-                            val.retType = clazz;
-                        } else {
-                            // else it is not assignable to Comparable  ==> Element löschen
-                            list.remove(val);
-                        }
+                    val.setMethod(this.clazz.getMethod(val.getMethodName()));
+
+                    if (Comparable.class.isAssignableFrom(clazz) || clazz.isPrimitive()) {
+                        // it implements comparable
+                        val.retType = clazz;
                     } else {
-                        // val.setRetType(castObjects(clazz));
-                        val.retClassConstructor = castObjects(clazz).getConstructor(clazz);
-                        val.retType = castObjects(clazz);
-                        val.primitive = true;
+                        // else it is not assignable to Comparable
+                        throw new NotAllowedTypeException("The return type " + clazz.getName() + " is not allowed, please make sure that its implementing Comparable");
                     }
+
                 } catch (NoSuchMethodException ex) {
                     throw new MethodNotFoundException("the specified Method does not Exist", ex);
                 } catch (Exception ex) {
@@ -181,51 +175,19 @@ public class SmartComparator<T> implements Comparator<T> {
         int ret = 0;
         if (t == null && t1 == null) return 0;
         try {
-            Method meth = VAL.method;
             Object obj1 = null;
             Object obj2 = null;
-            Comparable cmp = null;
+            Comparable<Object> cmp = null;
 
-            // is it an Object?
-            if (VAL.primitive == false) {
-                // it's an object
-                // it implements comparable
-                obj1 = meth.invoke(t);
-                obj2 = meth.invoke(t1);
-                cmp = (Comparable) obj1;
-            } else {
-                // it's one of the standard data types like int, float, double, long
+            obj1 = VAL.method.invoke(t);
+            obj2 = VAL.method.invoke(t1);
+            cmp = (Comparable<Object>) obj1;
 
-                obj1 = VAL.retClassConstructor.newInstance(meth.invoke(t));
-                obj2 = VAL.retClassConstructor.newInstance(meth.invoke(t1));
-                cmp = (Comparable) obj1;
-            }
             ret = cmp.compareTo(obj2);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         return ret;
-    }
-
-    private Class castObjects(Class clazz) {
-        if (clazz.isAssignableFrom(int.class)) {
-            return Integer.class;
-        } else if (clazz.isAssignableFrom(float.class)) {
-            return Float.class;
-        } else if (clazz.isAssignableFrom(double.class)) {
-            return Double.class;
-        } else if (clazz.isAssignableFrom(char.class)) {
-            return Character.class;
-        } else if (clazz.isAssignableFrom(byte.class)) {
-            return Byte.class;
-        } else if (clazz.isAssignableFrom(boolean.class)) {
-            return Boolean.class;
-        } else if (clazz.isAssignableFrom(short.class)) {
-            return Short.class;
-        } else if (clazz.isAssignableFrom(long.class)) {
-            return Long.class;
-        }
-        return null;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
