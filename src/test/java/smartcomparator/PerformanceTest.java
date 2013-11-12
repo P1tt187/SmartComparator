@@ -566,7 +566,7 @@ public class PerformanceTest {
             list = new ArrayList<>();
 
             for (int i = 0; i < 10000; i++) {
-                list.add(new TestStringObject(UUID.randomUUID().toString(), (int) ((Math.random() * 1000) % 1000)));
+                list.add(new TestStringObject(UUID.randomUUID().toString(), generator.nextInt()));
             }
             list2 = new ArrayList<>(list);
 
