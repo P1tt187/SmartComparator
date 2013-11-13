@@ -12,7 +12,7 @@ A simple way to generate a comparator in Java
 	- [Compile](#compile)
 	- [Usage](#usage)
 		- [Using the constructor](#using-the-constructor)
-		- [Using Anotations](#using-anotations)
+		- [Using Annotations](#using-annotations)
 		- [NamedSorts](#namedsorts)
 - [More information](#more-information)
 
@@ -50,7 +50,7 @@ It is also possible to change the sorting behaviour.
 ```
 Now the Comparator will first compare against val2 and if it's equal against val1.
 
-###Using Anotations
+###Using Annotations
 Example: you have this class
 ```Java
 public class TestStringObject {
@@ -76,7 +76,7 @@ public class TestStringObject {
     }  
 }
 ```
-You can annotate every field or mehtod of the class with  `@CompareCriteria`. This will tell SmartComparator(sc) to use it in the `compare` method
+You can annotate every field or method of the class with  `@CompareCriteria`. This will tell SmartComparator(sc) to use it in the `compare` method
 
 **Note:** if you have multiple values to compare you have to specify the priority of these values. The higher the value the more important is it to compare. 
 To use it create the Comparator just like this:
