@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import smartcomparator.dataclasses.TestStringObject;
 import smartcomparator.dataclasses.TestWrapper;
 
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -17,6 +18,20 @@ import java.util.*;
  *         Time: 22:13
  */
 public class PerformanceTest {
+
+    private static final double numberOfMethods;
+
+    static {
+
+        int count = 0;
+        for (Method method : PerformanceTest.class.getMethods()) {
+            if (method.isAnnotationPresent(Test.class)) {
+                count++;
+            }
+        }
+
+        numberOfMethods = count;
+    }
 
     private List<TestWrapper> scList;
     private List<TestWrapper> nativeList;
@@ -33,6 +48,8 @@ public class PerformanceTest {
     /**
      * used for small table creation, ratio cell
      */
+
+    private double progress = 0;
     private double ratioBuffer = 0;
 
     @BeforeClass
@@ -71,7 +88,7 @@ public class PerformanceTest {
         appendSmallTable(true, reformatResult(value / ratioBuffer));
     }
 
-    public void setUp() throws Exception {
+    private void setUp() throws Exception {
 
         nativeList = new LinkedList<>();
 
@@ -93,7 +110,7 @@ public class PerformanceTest {
 
     private void printFirstTableCell(String entry) {
         String line = "| " + entry + " | ";
-        System.out.println(line);
+        System.out.print(line);
         bigTableBuffer.append(line);
 
     }
@@ -102,6 +119,7 @@ public class PerformanceTest {
     public void tearDown() throws Exception {
         scList = null;
         nativeList = null;
+        System.out.println((int) (++progress * 100 / numberOfMethods) + "% |");
     }
 
     @Test
