@@ -2,6 +2,7 @@ package smartcomparator;
 
 import org.junit.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import smartcomparator.dataclasses.TestStringObject;
 import smartcomparator.dataclasses.TestWrapper;
@@ -18,7 +19,17 @@ public class PerformanceTest {
     private List<TestWrapper> scList;
     private List<TestWrapper> nativeList;
     private Random generator = new Random();
+//    private DecimalFormat formatter;
 
+    @BeforeClass
+    public void tableHeader() {
+
+        //    formatter = new DecimalFormat("#.");
+        System.out.println(
+                "| **Typ**            | **Nativ [ms]** | **SmartComparator [ms]** | **Ratio [SC/Nativ]** |\n" +
+                        "|:---------------|:----------:|:--------------------:|:----------------:|"
+        );
+    }
 
     public void setUp() throws Exception {
 
@@ -40,6 +51,10 @@ public class PerformanceTest {
 
     }
 
+    private void printFirstTableCell(String entry) {
+        System.out.print("| " + entry + " | ");
+    }
+
     @AfterMethod
     public void tearDown() throws Exception {
         scList = null;
@@ -48,7 +63,7 @@ public class PerformanceTest {
 
     @Test
     public void testNativeBool() throws Exception {
-        System.out.println("native bool");
+        printFirstTableCell(" native bool ");
         double meanSc = 0;
         double meanStandard = 0;
 
@@ -83,7 +98,7 @@ public class PerformanceTest {
 
     @Test(dependsOnMethods = "testNativeBool")
     public void testWrapperBool() throws Exception {
-        System.out.println("wrapped bool");
+        printFirstTableCell("wrapped bool");
         double meanSc = 0;
         double meanStandard = 0;
 
@@ -118,7 +133,7 @@ public class PerformanceTest {
 
     @Test(dependsOnMethods = "testWrapperBool")
     public void testNativeCharacter() throws Exception {
-        System.out.println("native char");
+        printFirstTableCell("native char");
         double meanSc = 0;
         double meanStandard = 0;
 
@@ -153,7 +168,7 @@ public class PerformanceTest {
 
     @Test(dependsOnMethods = "testNativeCharacter")
     public void testWrapperCharacter() throws Exception {
-        System.out.println("wrapped char");
+        printFirstTableCell("wrapped char");
 
         double meanSc = 0;
         double meanStandard = 0;
@@ -189,7 +204,7 @@ public class PerformanceTest {
 
     @Test(dependsOnMethods = "testWrapperCharacter")
     public void testNativeShort() throws Exception {
-        System.out.println("native short");
+        printFirstTableCell("native short");
         double meanSc = 0;
         double meanStandard = 0;
 
@@ -224,7 +239,7 @@ public class PerformanceTest {
 
     @Test(dependsOnMethods = "testNativeShort")
     public void testWrapperShort() throws Exception {
-        System.out.println("wrapped short");
+        printFirstTableCell("wrapped short");
 
         double meanSc = 0;
         double meanStandard = 0;
@@ -260,7 +275,7 @@ public class PerformanceTest {
 
     @Test(dependsOnMethods = "testWrapperShort")
     public void testNativeInt() throws Exception {
-        System.out.println("native int");
+        printFirstTableCell("native int");
         double meanSc = 0;
         double meanStandard = 0;
 
@@ -295,7 +310,7 @@ public class PerformanceTest {
 
     @Test(dependsOnMethods = "testNativeInt")
     public void testWrapperInt() throws Exception {
-        System.out.println("wrapped int");
+        printFirstTableCell("wrapped int");
 
         double meanSc = 0;
         double meanStandard = 0;
@@ -331,7 +346,7 @@ public class PerformanceTest {
 
     @Test(dependsOnMethods = "testWrapperInt")
     public void testNativeLong() throws Exception {
-        System.out.println("native Long");
+        printFirstTableCell("native Long");
 
         double meanSc = 0;
         double meanStandard = 0;
@@ -367,7 +382,7 @@ public class PerformanceTest {
 
     @Test(dependsOnMethods = "testNativeLong")
     public void testWrapperLong() throws Exception {
-        System.out.println("wrapped Long");
+        printFirstTableCell("wrapped Long");
 
         double meanSc = 0;
         double meanStandard = 0;
@@ -403,7 +418,7 @@ public class PerformanceTest {
 
     @Test(dependsOnMethods = "testWrapperLong")
     public void testNativeFloat() throws Exception {
-        System.out.println("native Float");
+        printFirstTableCell("native Float");
 
         double meanSc = 0;
         double meanStandard = 0;
@@ -439,7 +454,7 @@ public class PerformanceTest {
 
     @Test(dependsOnMethods = "testNativeFloat")
     public void testWrapperFloat() throws Exception {
-        System.out.println("wrapped Float");
+        printFirstTableCell("wrapped Float");
 
         double meanSc = 0;
         double meanStandard = 0;
@@ -475,7 +490,7 @@ public class PerformanceTest {
 
     @Test(dependsOnMethods = "testWrapperFloat")
     public void testNativeDouble() throws Exception {
-        System.out.println("native Double");
+        printFirstTableCell("native Double");
 
 
         double meanSc = 0;
@@ -512,7 +527,7 @@ public class PerformanceTest {
 
     @Test(dependsOnMethods = "testNativeDouble")
     public void testWrapperDouble() throws Exception {
-        System.out.println("wrapped Double");
+        printFirstTableCell("wrapped Double");
 
 
         double meanSc = 0;
@@ -547,14 +562,18 @@ public class PerformanceTest {
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
+    private String reformatResult(double value) {
+        return String.format("" + value, "%.02f");
+    }
+
     private void printResults(double meanSc, double meanStandard, double numberOfRuns) {
-        System.out.println("SmartComparator: " + (meanSc / numberOfRuns) + " NativeComparator: " + (meanStandard / numberOfRuns) + " Ratio: " + (meanSc / meanStandard));
+        System.out.println(" " + reformatResult(meanStandard / numberOfRuns) + " | " + reformatResult(meanSc / numberOfRuns) + " | " + reformatResult(meanSc / meanStandard) + " |");
     }
 
     @Test(dependsOnMethods = "testWrapperDouble")
     public void testPerformance() throws Exception {
 
-        System.out.println("testPerformance");
+        printFirstTableCell("testPerformance");
         double numberOfRuns = 1000;
         double meanSc = 0;
         double meanStandard = 0;
