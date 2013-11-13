@@ -14,11 +14,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: fabian
- * Date: 25.10.13
- * Time: 05:35
- * To change this template use File | Settings | File Templates.
+ * @author fabian
+ *         Date: 25.10.13
+ *         Time: 05:35
  */
 public class P1tt187SmartComparatorTest {
 
@@ -49,7 +47,6 @@ public class P1tt187SmartComparatorTest {
                 new TestStringObject("aa", 1), new TestStringObject("aa", 2), new TestStringObject("bb", 3),
                 new TestStringObject("c", 2), new TestStringObject("f", 5)};
 
-        System.out.println(list);
         Assert.assertArrayEquals(expected, list.toArray(new TestStringObject[list.size()]));
 
     }
@@ -79,8 +76,8 @@ public class P1tt187SmartComparatorTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void exeptionTest() {
-        new SmartComparator(int.class);
+    public void exceptionTest() {
+        new SmartComparator<>(int.class);
         Assert.fail("no exception was thrown");
     }
 
