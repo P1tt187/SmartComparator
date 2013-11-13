@@ -26,6 +26,7 @@ You need JDK 1.7 and Maven to compile the project.
 ```shell
     mvn clean
     mvn compile
+    mvn test
 ```
 ##Usage
 There are multiple ways to the use SmartComparator.
