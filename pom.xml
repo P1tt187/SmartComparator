@@ -7,8 +7,8 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>smartcomparator</name>
-    <url>http://maven.apache.org</url>
+    <name>SmartComparator</name>
+    <url>http://www.penta-it.com</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
