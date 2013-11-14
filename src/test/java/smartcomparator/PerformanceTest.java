@@ -715,7 +715,7 @@ public class PerformanceTest {
     @AfterClass
     public void printResults() {
 
-        bigTableBuffer.append("| total              | " + reformatResult(totalNative / totalCounter) + " \t| " + reformatResult(totalSC / totalCounter) + " \t| " + reformatResult(totalSC / totalNative) + " \t| ");
+        bigTableBuffer.append("| total              |  " + reformatResult(totalNative / totalCounter) + " \t| " + reformatResult(totalSC / totalCounter) + " \t| " + reformatResult(totalSC / totalNative) + " \t| ");
         smallTableBuffer.append("| total    \t| " + reformatResult(totalPrimitive / smallCounter) + " \t| " + reformatResult(totalWrapped / smallCounter) + " \t| " + reformatResult(totalNative / totalWrapped) + "   \t|");
         System.out.println();
         System.out.println(bigTableBuffer);
