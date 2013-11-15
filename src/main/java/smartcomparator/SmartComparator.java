@@ -175,11 +175,6 @@ public class SmartComparator<T> implements Comparator<T> {
         int ret = 0;
         if (t == null && t1 == null) return 0;
         try {
-            /*Object obj1 = VAL.method.invoke(t);
-            Object obj2 = VAL.method.invoke(t1);
-            Comparable<Object> cmp = (Comparable<Object>) obj1;
-            ret = cmp.compareTo(obj2); */
-
             Comparable<Object> cmp = (Comparable<Object>) VAL.method.invoke(t);
             ret = cmp.compareTo(VAL.method.invoke(t1));
         } catch (Exception ex) {
