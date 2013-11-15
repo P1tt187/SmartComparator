@@ -1,12 +1,15 @@
 package smartcomparator;
 
 import org.junit.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import smartcomparator.dataclasses.TestStringObject;
 import smartcomparator.dataclasses.TestWrapper;
 
+import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -16,22 +19,77 @@ import java.util.*;
  */
 public class PerformanceTest {
 
+    private static final double numberOfMethods;
+
+    static {
+
+        int count = 0;
+        for (Method method : PerformanceTest.class.getMethods()) {
+            if (method.isAnnotationPresent(Test.class)) {
+                count++;
+            }
+        }
+
+        numberOfMethods = count;
+    }
+
     private List<TestWrapper> scList;
     private List<TestWrapper> nativeList;
     private Random generator = new Random();
-//    private DecimalFormat formatter;
+    private DecimalFormat formatter;
+    private StringBuffer bigTableBuffer = new StringBuffer();
+    private StringBuffer smallTableBuffer = new StringBuffer();
+    private double totalNative = 0;
+    private double totalSC = 0;
+    private double totalCounter = 0;
+    private double smallCounter = 0;
+    private double totalPrimitive = 0;
+    private double totalWrapped = 0;
+    /**
+     * used for small table creation, ratio cell
+     */
+
+    private double progress = 0;
+    private double ratioBuffer = 0;
 
     @BeforeClass
     public void tableHeader() {
 
-        //    formatter = new DecimalFormat("#.");
-        System.out.println(
-                "| **Typ**            | **Nativ [ms]** | **SmartComparator [ms]** | **Ratio [SC/Nativ]** |\n" +
-                        "|:---------------|:----------:|:--------------------:|:----------------:|"
-        );
+        formatter = new DecimalFormat("#00.00");
+        String line = "| **Typ**            | **Nativ [ms]** | **SmartComparator [ms]** | **Ratio [SC/Nativ]** |\n" +
+                "|:-------------------|:--------------:|:------------------------:|:--------------------:|\n";
+        bigTableBuffer.append(line);
+
+        line = "| **Typ**    | **Nativ [ms]** | **Wrapped [ms]** | **Ratio [Nativ/Wrapped]** |\n" +
+                "|:-----------|:--------------:|:----------------:|:-------------------------:|\n";
+        smallTableBuffer.append(line);
     }
 
-    public void setUp() throws Exception {
+    private void appendSmallTable(String line) {
+        appendSmallTable(false, line);
+    }
+
+    private void appendSmallTable(boolean newLine, String line) {
+        smallTableBuffer.append(line);
+        smallTableBuffer.append("   \t| ");
+        if (newLine)
+            smallTableBuffer.append("\n");
+    }
+
+    private void addPrimitive(double value) {
+        totalPrimitive += value;
+        ratioBuffer = value;
+        smallCounter++;
+        appendSmallTable(reformatResult(value));
+    }
+
+    private void addWrapped(double value) {
+        totalWrapped += value;
+        appendSmallTable(reformatResult(value));
+        appendSmallTable(true, reformatResult(value / ratioBuffer));
+    }
+
+    private void setUp() throws Exception {
 
         nativeList = new LinkedList<>();
 
@@ -52,18 +110,27 @@ public class PerformanceTest {
     }
 
     private void printFirstTableCell(String entry) {
-        System.out.print("| " + entry + " | ");
+        String line = "| " + entry;
+        for (int i = line.length(); i < 21; i++) {
+            line += " ";
+        }
+        line += "| ";
+        System.out.print(line);
+        bigTableBuffer.append(line);
+
     }
 
     @AfterMethod
     public void tearDown() throws Exception {
         scList = null;
         nativeList = null;
+        System.out.println(String.format("%2.0f", ++progress * 100 / numberOfMethods) + "% |");
     }
 
     @Test
     public void testNativeBool() throws Exception {
         printFirstTableCell(" native bool ");
+        appendSmallTable("| bool");
         double meanSc = 0;
         double meanStandard = 0;
 
@@ -92,7 +159,7 @@ public class PerformanceTest {
 
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
-
+        addPrimitive(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
@@ -128,12 +195,14 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
+        addWrapped(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
     @Test(dependsOnMethods = "testWrapperBool")
     public void testNativeCharacter() throws Exception {
         printFirstTableCell("native char");
+        appendSmallTable("| char");
         double meanSc = 0;
         double meanStandard = 0;
 
@@ -163,6 +232,7 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
+        addPrimitive(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
@@ -199,12 +269,14 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
+        addWrapped(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
     @Test(dependsOnMethods = "testWrapperCharacter")
     public void testNativeShort() throws Exception {
         printFirstTableCell("native short");
+        appendSmallTable("| short");
         double meanSc = 0;
         double meanStandard = 0;
 
@@ -233,7 +305,7 @@ public class PerformanceTest {
 
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
-
+        addPrimitive(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
@@ -269,13 +341,14 @@ public class PerformanceTest {
 
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
-
+        addWrapped(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
     @Test(dependsOnMethods = "testWrapperShort")
     public void testNativeInt() throws Exception {
         printFirstTableCell("native int");
+        appendSmallTable("| int");
         double meanSc = 0;
         double meanStandard = 0;
 
@@ -304,7 +377,7 @@ public class PerformanceTest {
 
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
-
+        addPrimitive(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
@@ -340,14 +413,14 @@ public class PerformanceTest {
 
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
-
+        addWrapped(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
     @Test(dependsOnMethods = "testWrapperInt")
     public void testNativeLong() throws Exception {
         printFirstTableCell("native Long");
-
+        appendSmallTable("| long");
         double meanSc = 0;
         double meanStandard = 0;
 
@@ -376,7 +449,7 @@ public class PerformanceTest {
 
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
-
+        addPrimitive(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
@@ -412,14 +485,14 @@ public class PerformanceTest {
 
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
-
+        addWrapped(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
     @Test(dependsOnMethods = "testWrapperLong")
     public void testNativeFloat() throws Exception {
         printFirstTableCell("native Float");
-
+        appendSmallTable("| float");
         double meanSc = 0;
         double meanStandard = 0;
 
@@ -448,7 +521,7 @@ public class PerformanceTest {
 
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
-
+        addPrimitive(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
@@ -484,14 +557,14 @@ public class PerformanceTest {
 
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
-
+        addWrapped(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
     @Test(dependsOnMethods = "testWrapperFloat")
     public void testNativeDouble() throws Exception {
         printFirstTableCell("native Double");
-
+        appendSmallTable("| double");
 
         double meanSc = 0;
         double meanStandard = 0;
@@ -522,6 +595,7 @@ public class PerformanceTest {
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
 
+        addPrimitive(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
@@ -535,7 +609,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator(TestWrapper.class, "wrapperDouble");
+        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "wrapperDouble");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -558,23 +632,28 @@ public class PerformanceTest {
 
             Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
         }
-
+        addWrapped(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
     }
 
     private String reformatResult(double value) {
-        return String.format("" + value, "%.02f");
+        return formatter.format(value);
     }
 
     private void printResults(double meanSc, double meanStandard, double numberOfRuns) {
-        System.out.println(" " + reformatResult(meanStandard / numberOfRuns) + " | " + reformatResult(meanSc / numberOfRuns) + " | " + reformatResult(meanSc / meanStandard) + " |");
+        totalCounter++;
+        totalSC += meanSc / numberOfRuns;
+        totalNative += meanStandard / numberOfRuns;
+        String line = " " + reformatResult(meanStandard / numberOfRuns) + " \t| " + reformatResult(meanSc / numberOfRuns) + " \t| " + reformatResult(meanSc / meanStandard) + " \t|\n";
+        bigTableBuffer.append(line);
+
     }
 
     @Test(dependsOnMethods = "testWrapperDouble")
     public void testPerformance() throws Exception {
 
-        printFirstTableCell("testPerformance");
-        double numberOfRuns = 1000;
+        System.out.print("| testPerformance |");
+        double numberOfRuns = 100;
         double meanSc = 0;
         double meanStandard = 0;
 
@@ -629,8 +708,22 @@ public class PerformanceTest {
             Assert.assertArrayEquals(list.toArray(new TestStringObject[list.size()]), list2.toArray(new TestStringObject[list2.size()]));
         }
 
-        printResults(meanSc, meanStandard, numberOfRuns);
+        System.out.print(" " + reformatResult(meanStandard / numberOfRuns) + " | " + reformatResult(meanSc / numberOfRuns) + " | " + reformatResult(meanSc / meanStandard) + " | ");
 
+    }
 
+    @AfterClass
+    public void printResults() {
+
+        bigTableBuffer.append("| total              |  " + reformatResult(totalNative / totalCounter) + " \t| " + reformatResult(totalSC / totalCounter) + " \t| " + reformatResult(totalSC / totalNative) + " \t| ");
+        smallTableBuffer.append("| total    \t| " + reformatResult(totalPrimitive / smallCounter) + " \t| " + reformatResult(totalWrapped / smallCounter) + " \t| " + reformatResult(totalNative / totalWrapped) + "   \t|");
+        System.out.println();
+        System.out.println(bigTableBuffer);
+        System.out.println();
+        System.out.println(smallTableBuffer);
+        System.out.println();
+        System.out.println(bigTableBuffer.toString().replaceAll(",", "."));
+        System.out.println();
+        System.out.println(smallTableBuffer.toString().replaceAll(",", "."));
     }
 }
