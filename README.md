@@ -5,6 +5,8 @@ A simple way to generate a comparator in Java
 
 ------------------------
 
+<img src="https://p1tt187.ci.cloudbees.com/job/SmartComparator/badge/icon" />
+
 **Table of Contents**  
 
 - [SmartComparator](#smartcomparator)
