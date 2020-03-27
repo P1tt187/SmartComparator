@@ -1,6 +1,10 @@
 package smartcomparator;
 
-import org.junit.Assert;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
+import static org.testng.Assert.fail;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -14,8 +18,8 @@ import java.util.*;
 
 /**
  * @author fabian
- *         Date: 31.10.13
- *         Time: 22:13
+ * Date: 31.10.13
+ * Time: 22:13
  */
 public class PerformanceTest {
 
@@ -110,11 +114,11 @@ public class PerformanceTest {
     }
 
     private void printFirstTableCell(String entry) {
-        String line = "| " + entry;
+        StringBuilder line = new StringBuilder("| " + entry);
         for (int i = line.length(); i < 21; i++) {
-            line += " ";
+            line.append(" ");
         }
-        line += "| ";
+        line.append("| ");
         System.out.print(line);
         bigTableBuffer.append(line);
 
@@ -136,7 +140,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "nativeBoolean");
+        SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "nativeBoolean");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -150,14 +154,13 @@ public class PerformanceTest {
             setUp();
 
             Date before = new Date();
-            Collections.sort(scList, sc);
+            scList.sort(sc);
             meanSc += new Date().getTime() - before.getTime();
 
             before = new Date();
-            Collections.sort(nativeList, nativeComparator);
+            nativeList.sort(nativeComparator);
             meanStandard += new Date().getTime() - before.getTime();
-
-            Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
+            assertThat(scList, equalTo(nativeList));
         }
         addPrimitive(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
@@ -171,7 +174,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "wrapperBoolean");
+        SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "wrapperBoolean");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -185,14 +188,13 @@ public class PerformanceTest {
             setUp();
 
             Date before = new Date();
-            Collections.sort(scList, sc);
+            scList.sort(sc);
             meanSc += new Date().getTime() - before.getTime();
 
             before = new Date();
-            Collections.sort(nativeList, nativeComparator);
+            nativeList.sort(nativeComparator);
             meanStandard += new Date().getTime() - before.getTime();
-
-            Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
+            assertThat(scList, equalTo(nativeList));
         }
 
         addWrapped(meanSc / numberOfRuns);
@@ -208,12 +210,12 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "nativeChar");
+        SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "nativeChar");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
             public int compare(TestWrapper o1, TestWrapper o2) {
-                return new Character(o1.getNativeChar()).compareTo(o2.getNativeChar());
+                return Character.valueOf(o1.getNativeChar()).compareTo(o2.getNativeChar());
             }
         };
 
@@ -228,8 +230,7 @@ public class PerformanceTest {
             before = new Date();
             Collections.sort(nativeList, nativeComparator);
             meanStandard += new Date().getTime() - before.getTime();
-
-            Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
+            assertThat(scList, equalTo(nativeList));
         }
 
         addPrimitive(meanSc / numberOfRuns);
@@ -245,7 +246,7 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "wrapperChar");
+        SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "wrapperChar");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
@@ -266,7 +267,7 @@ public class PerformanceTest {
             Collections.sort(nativeList, nativeComparator);
             meanStandard += new Date().getTime() - before.getTime();
 
-            Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
+            assertThat(scList, equalTo(nativeList));
         }
 
         addWrapped(meanSc / numberOfRuns);
@@ -303,7 +304,7 @@ public class PerformanceTest {
             Collections.sort(nativeList, nativeComparator);
             meanStandard += new Date().getTime() - before.getTime();
 
-            Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
+            assertThat(scList, equalTo(nativeList));
         }
         addPrimitive(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
@@ -339,7 +340,7 @@ public class PerformanceTest {
             Collections.sort(nativeList, nativeComparator);
             meanStandard += new Date().getTime() - before.getTime();
 
-            Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
+            assertThat(scList, equalTo(nativeList));
         }
         addWrapped(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
@@ -375,7 +376,7 @@ public class PerformanceTest {
             Collections.sort(nativeList, nativeComparator);
             meanStandard += new Date().getTime() - before.getTime();
 
-            Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
+            assertThat(scList, equalTo(nativeList));
         }
         addPrimitive(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
@@ -411,7 +412,7 @@ public class PerformanceTest {
             Collections.sort(nativeList, nativeComparator);
             meanStandard += new Date().getTime() - before.getTime();
 
-            Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
+            assertThat(scList, equalTo(nativeList));
         }
         addWrapped(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
@@ -447,7 +448,7 @@ public class PerformanceTest {
             Collections.sort(nativeList, nativeComparator);
             meanStandard += new Date().getTime() - before.getTime();
 
-            Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
+            assertThat(scList, equalTo(nativeList));
         }
         addPrimitive(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
@@ -483,7 +484,7 @@ public class PerformanceTest {
             Collections.sort(nativeList, nativeComparator);
             meanStandard += new Date().getTime() - before.getTime();
 
-            Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
+            assertThat(scList, equalTo(nativeList));
         }
         addWrapped(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
@@ -519,7 +520,7 @@ public class PerformanceTest {
             Collections.sort(nativeList, nativeComparator);
             meanStandard += new Date().getTime() - before.getTime();
 
-            Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
+            assertThat(scList, equalTo(nativeList));
         }
         addPrimitive(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
@@ -555,7 +556,7 @@ public class PerformanceTest {
             Collections.sort(nativeList, nativeComparator);
             meanStandard += new Date().getTime() - before.getTime();
 
-            Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
+            assertThat(scList, equalTo(nativeList));
         }
         addWrapped(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
@@ -571,12 +572,12 @@ public class PerformanceTest {
 
         double numberOfRuns = 100;
 
-        SmartComparator sc = new SmartComparator<>(TestWrapper.class, "nativeDouble");
+        SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "nativeDouble");
 
         Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
             @Override
             public int compare(TestWrapper o1, TestWrapper o2) {
-                return new Double(o1.getNativeDouble()).compareTo(o2.getNativeDouble());
+                return Double.valueOf(o1.getNativeDouble()).compareTo(o2.getNativeDouble());
             }
         };
 
@@ -585,14 +586,14 @@ public class PerformanceTest {
             setUp();
 
             Date before = new Date();
-            Collections.sort(scList, sc);
+            scList.sort(sc);
             meanSc += new Date().getTime() - before.getTime();
 
             before = new Date();
-            Collections.sort(nativeList, nativeComparator);
+            nativeList.sort(nativeComparator);
             meanStandard += new Date().getTime() - before.getTime();
 
-            Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
+            assertThat(scList, equalTo(nativeList));
         }
 
         addPrimitive(meanSc / numberOfRuns);
@@ -623,14 +624,14 @@ public class PerformanceTest {
             setUp();
 
             Date before = new Date();
-            Collections.sort(scList, sc);
+            scList.sort(sc);
             meanSc += new Date().getTime() - before.getTime();
 
             before = new Date();
-            Collections.sort(nativeList, nativeComparator);
+            nativeList.sort(nativeComparator);
             meanStandard += new Date().getTime() - before.getTime();
 
-            Assert.assertArrayEquals(scList.toArray(new TestWrapper[scList.size()]), nativeList.toArray(new TestWrapper[nativeList.size()]));
+            assertThat(scList, equalTo(nativeList));
         }
         addWrapped(meanSc / numberOfRuns);
         printResults(meanSc, meanStandard, numberOfRuns);
@@ -668,9 +669,9 @@ public class PerformanceTest {
             }
             list2 = new ArrayList<>(list);
 
-            SmartComparator sc = new SmartComparator<>(TestStringObject.class);
+            SmartComparator<TestStringObject> sc = new SmartComparator<>(TestStringObject.class);
             Date beforeSc = new Date();
-            Collections.sort(list, sc);
+            list.sort(sc);
             Date afterSc = new Date();
 
             Comparator<TestStringObject> standardComparator = new Comparator<TestStringObject>() {
@@ -700,12 +701,12 @@ public class PerformanceTest {
             };
 
             Date beforeStandard = new Date();
-            Collections.sort(list2, standardComparator);
+            list2.sort(standardComparator);
             Date afterStandard = new Date();
 
             meanSc += afterSc.getTime() - beforeSc.getTime();
             meanStandard += afterStandard.getTime() - beforeStandard.getTime();
-            Assert.assertArrayEquals(list.toArray(new TestStringObject[list.size()]), list2.toArray(new TestStringObject[list2.size()]));
+            assertThat(list, equalTo(list2));
         }
 
         System.out.print(" " + reformatResult(meanStandard / numberOfRuns) + " | " + reformatResult(meanSc / numberOfRuns) + " | " + reformatResult(meanSc / meanStandard) + " | ");

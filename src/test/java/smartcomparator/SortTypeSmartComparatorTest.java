@@ -1,7 +1,6 @@
 package smartcomparator;
 
 
-import org.junit.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -11,6 +10,10 @@ import smartcomparator.helperclasses.SortType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
 
 /**
  * Created with IntelliJ IDEA.
@@ -53,8 +56,7 @@ public class SortTypeSmartComparatorTest {
                 new TestSortTypeObject("c", 2),
                 new TestSortTypeObject("aa", 1)
         };
-
-        Assert.assertArrayEquals(expectedResult, list.toArray(new TestSortTypeObject[list.size()]));
+        assertThat(list, contains(expectedResult));
     }
 
     @Test
@@ -70,7 +72,7 @@ public class SortTypeSmartComparatorTest {
                 new TestSortTypeObject("aa", 1)
         };
 
-        Assert.assertArrayEquals(expectedResult, list.toArray(new TestSortTypeObject[list.size()]));
+        assertThat(list, contains(expectedResult));
     }
 
     @Test
@@ -86,6 +88,6 @@ public class SortTypeSmartComparatorTest {
                 new TestSortTypeObject("a", 9)
         };
 
-        Assert.assertArrayEquals(expectedResult, list.toArray(new TestSortTypeObject[list.size()]));
+        assertThat(list, contains(expectedResult));
     }
 }

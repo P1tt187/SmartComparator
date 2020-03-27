@@ -1,21 +1,21 @@
 package smartcomparator;
 
-import org.junit.Assert;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.*;
+
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import smartcomparator.dataclasses.TestDataObject;
 import smartcomparator.dataclasses.TestNamedSortsObject;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Fabian Markert
- *         Date: 28.10.13
- *         Time: 00:09
+ * Date: 28.10.13
+ * Time: 00:09
  */
 public class DeclarativeSortingTests {
     private List<TestNamedSortsObject> list;
@@ -43,112 +43,112 @@ public class DeclarativeSortingTests {
 
     @Test
     public void testCompare() throws Exception {
-        SmartComparator sc = new SmartComparator(TestNamedSortsObject.class, "allASC");
+        SmartComparator<TestNamedSortsObject> sc = new SmartComparator<>(TestNamedSortsObject.class, "allASC");
 
-        TestNamedSortsObject[] expectedResult = new TestNamedSortsObject[]{
+        List<TestNamedSortsObject> expectedResult = Arrays.asList(
                 new TestNamedSortsObject("aa", 1),
                 new TestNamedSortsObject("aa", 2),
                 new TestNamedSortsObject("c", 2),
                 new TestNamedSortsObject("bb", 3),
                 new TestNamedSortsObject("f", 5),
-                new TestNamedSortsObject("a", 9)
-        };
+                new TestNamedSortsObject("a", 9));
         before = new Date();
-        Collections.sort(list, sc);
+        list.sort(sc);
         after = new Date();
-        Assert.assertArrayEquals(expectedResult, list.toArray(new TestNamedSortsObject[list.size()]));
+        assertThat(list, contains(expectedResult));
+
     }
 
     @Test
     public void testCompare2() throws Exception {
-        SmartComparator sc = new SmartComparator(TestNamedSortsObject.class, "mixed");
+        SmartComparator<TestNamedSortsObject> sc = new SmartComparator<>(TestNamedSortsObject.class, "mixed");
         before = new Date();
-        Collections.sort(list, sc);
+        list.sort(sc);
         after = new Date();
-        TestNamedSortsObject[] expectedResult = new TestNamedSortsObject[]{
+        List<TestNamedSortsObject> expectedResult = Arrays.asList(
                 new TestNamedSortsObject("f", 5),
                 new TestNamedSortsObject("c", 2),
                 new TestNamedSortsObject("bb", 3),
                 new TestNamedSortsObject("aa", 1),
                 new TestNamedSortsObject("aa", 2),
                 new TestNamedSortsObject("a", 9)
-        };
-        Assert.assertArrayEquals(expectedResult, list.toArray(new TestNamedSortsObject[list.size()]));
+        );
+        assertThat(list, contains(expectedResult));
     }
 
     @Test
     public void testChangeSorting() throws Exception {
-        SmartComparator sc = new SmartComparator(TestNamedSortsObject.class, "allASC");
-        Collections.sort(list, sc);
-        TestNamedSortsObject[] expectedResult = new TestNamedSortsObject[]{
+        SmartComparator<TestNamedSortsObject> sc = new SmartComparator<>(TestNamedSortsObject.class, "allASC");
+        list.sort(sc);
+        List<TestNamedSortsObject> expectedResult = Arrays.asList(
                 new TestNamedSortsObject("aa", 1),
                 new TestNamedSortsObject("aa", 2),
                 new TestNamedSortsObject("c", 2),
                 new TestNamedSortsObject("bb", 3),
                 new TestNamedSortsObject("f", 5),
                 new TestNamedSortsObject("a", 9)
-        };
+        );
 
-        Assert.assertArrayEquals(expectedResult, list.toArray(new TestNamedSortsObject[list.size()]));
+        assertThat(list, contains(expectedResult));
 
         sc.changeSorting("mixed");
 
         before = new Date();
-        Collections.sort(list, sc);
+        list.sort(sc);
         after = new Date();
-        expectedResult = new TestNamedSortsObject[]{
+        expectedResult = Arrays.asList(
                 new TestNamedSortsObject("f", 5),
                 new TestNamedSortsObject("c", 2),
                 new TestNamedSortsObject("bb", 3),
                 new TestNamedSortsObject("aa", 1),
                 new TestNamedSortsObject("aa", 2),
                 new TestNamedSortsObject("a", 9)
-        };
+        );
 
-        Assert.assertArrayEquals(expectedResult, list.toArray(new TestNamedSortsObject[list.size()]));
+        assertThat(list, contains(expectedResult));
     }
 
     @Test
     public void testChangeSorting2() throws Exception {
-        SmartComparator sc = new SmartComparator(TestNamedSortsObject.class, "allASC");
-        Collections.sort(list, sc);
-        TestNamedSortsObject[] expectedResult = new TestNamedSortsObject[]{
+        SmartComparator<TestNamedSortsObject> sc = new SmartComparator<>(TestNamedSortsObject.class, "allASC");
+        list.sort(sc);
+        List<TestNamedSortsObject> expectedResult = Arrays.asList(
                 new TestNamedSortsObject("aa", 1),
                 new TestNamedSortsObject("aa", 2),
                 new TestNamedSortsObject("c", 2),
                 new TestNamedSortsObject("bb", 3),
                 new TestNamedSortsObject("f", 5),
                 new TestNamedSortsObject("a", 9)
-        };
+        );
 
-        Assert.assertArrayEquals(expectedResult, list.toArray(new TestNamedSortsObject[list.size()]));
+        assertThat(list, contains(expectedResult));
 
         sc.changeSorting("mixed");
 
         before = new Date();
         Collections.sort(list, sc);
         after = new Date();
-        expectedResult = new TestNamedSortsObject[]{
+        expectedResult = Arrays.asList(
                 new TestNamedSortsObject("f", 5),
                 new TestNamedSortsObject("c", 2),
                 new TestNamedSortsObject("bb", 3),
                 new TestNamedSortsObject("aa", 1),
                 new TestNamedSortsObject("aa", 2),
                 new TestNamedSortsObject("a", 9)
-        };
+        );
 
-        Assert.assertArrayEquals(expectedResult, list.toArray(new TestNamedSortsObject[list.size()]));
+        assertThat(list, contains(expectedResult));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testCompareNegative() {
-        new SmartComparator(TestDataObject.class, (String) null);
-        Assert.fail("no exception was thrown");
+        new SmartComparator<>(TestDataObject.class, (String) null);
+        fail("no exception was thrown");
     }
 
     @Test(expectedExceptions = NullPointerException.class)
     public void testCompareNegative2() {
-        new SmartComparator(TestNamedSortsObject.class, (String) null);
-        Assert.fail("no exception was thrown");
+        new SmartComparator<>(TestNamedSortsObject.class, (String) null);
+        fail("no exception was thrown");
     }
 }

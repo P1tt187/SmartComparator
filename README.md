@@ -18,22 +18,22 @@ A simple way to generate a comparator in Java
 		- [NamedSorts](#namedsorts)
 - [More information](#more-information)
 
-##Description
+## Description
 SmartComparator gives you the ability to generate a java.util.Comparator for your class. You don't have to write your own Comparator or implement Comparable anymore. Just create a new SmartComparator and tell it which attributes or methods are used for comparison.
 
 Sorting with multiple attributes is also possible.
 
-##Compile
-You need JDK 1.7 and Maven to compile the project.
+## Compile
+You need JDK 1.8 and Maven to compile the project.
 ```shell
     mvn clean
     mvn compile
     mvn test
 ```
-##Usage
+## Usage
 There are multiple ways to the use SmartComparator.
 
-###Using the constructor
+### Using the constructor
 ```Java
     SmartComparator<YourDataClass> sc =
            new SmartComparator<>(YourDataClass.class,
@@ -52,7 +52,7 @@ It is also possible to change the sorting behaviour.
 ```
 Now the Comparator will first compare against val2 and if it's equal against val1.
 
-###Using Annotations
+### Using Annotations
 Example: you have this class
 ```Java
 public class TestStringObject {
@@ -85,7 +85,7 @@ To use it create the Comparator just like this:
 ```Java
     Comparator<TestStringObject> sc = new SmartComparator(TestStringObject.class);
 ```
-###NamedSorts
+### NamedSorts
 NamedSorts gives you the ability to predefine multiple sets of sorting criteriars and allows you easly to switch between them.
 
 Example:
@@ -132,5 +132,5 @@ If you want to change the sorting behaviour just use the `changeSorting` method:
     sc.changeSorting("mixed");
 ```
 
-#More information
+# More information
 For more information's about this project look at http://www.penta-it.com/
