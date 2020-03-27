@@ -1,10 +1,5 @@
 package smartcomparator;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.equalTo;
-import static org.testng.Assert.fail;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -15,6 +10,9 @@ import smartcomparator.dataclasses.TestWrapper;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.*;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 /**
  * @author fabian
