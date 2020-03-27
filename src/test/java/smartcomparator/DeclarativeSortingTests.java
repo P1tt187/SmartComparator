@@ -19,8 +19,6 @@ import java.util.*;
  */
 public class DeclarativeSortingTests {
     private List<TestNamedSortsObject> list;
-    private Date before;
-    private Date after;
 
     @BeforeMethod
     public void setUp() throws Exception {
@@ -34,8 +32,8 @@ public class DeclarativeSortingTests {
         }};
     }
 
-    @AfterMethod
-    public void tearDown() throws Exception {
+
+    public void tearDown(final Date before, final Date after) throws Exception {
         System.err.println("time: " + (after.getTime() - before.getTime()));
 
         list = null;
@@ -45,99 +43,103 @@ public class DeclarativeSortingTests {
     public void testCompare() throws Exception {
         SmartComparator<TestNamedSortsObject> sc = new SmartComparator<>(TestNamedSortsObject.class, "allASC");
 
-        List<TestNamedSortsObject> expectedResult = Arrays.asList(
+        TestNamedSortsObject[] expectedResult = new TestNamedSortsObject[]{
                 new TestNamedSortsObject("aa", 1),
                 new TestNamedSortsObject("aa", 2),
                 new TestNamedSortsObject("c", 2),
                 new TestNamedSortsObject("bb", 3),
                 new TestNamedSortsObject("f", 5),
-                new TestNamedSortsObject("a", 9));
-        before = new Date();
+                new TestNamedSortsObject("a", 9)
+        };
+        Date before = new Date();
         list.sort(sc);
-        after = new Date();
+        Date after = new Date();
         assertThat(list, contains(expectedResult));
-
+        tearDown(before, after);
     }
 
     @Test
     public void testCompare2() throws Exception {
         SmartComparator<TestNamedSortsObject> sc = new SmartComparator<>(TestNamedSortsObject.class, "mixed");
-        before = new Date();
+        Date before = new Date();
         list.sort(sc);
-        after = new Date();
-        List<TestNamedSortsObject> expectedResult = Arrays.asList(
+        Date after = new Date();
+        TestNamedSortsObject[] expectedResult = new TestNamedSortsObject[]{
                 new TestNamedSortsObject("f", 5),
                 new TestNamedSortsObject("c", 2),
                 new TestNamedSortsObject("bb", 3),
                 new TestNamedSortsObject("aa", 1),
                 new TestNamedSortsObject("aa", 2),
                 new TestNamedSortsObject("a", 9)
-        );
+        };
         assertThat(list, contains(expectedResult));
+        tearDown(before, after);
     }
 
     @Test
     public void testChangeSorting() throws Exception {
         SmartComparator<TestNamedSortsObject> sc = new SmartComparator<>(TestNamedSortsObject.class, "allASC");
         list.sort(sc);
-        List<TestNamedSortsObject> expectedResult = Arrays.asList(
+        TestNamedSortsObject[] expectedResult = new TestNamedSortsObject[]{
                 new TestNamedSortsObject("aa", 1),
                 new TestNamedSortsObject("aa", 2),
                 new TestNamedSortsObject("c", 2),
                 new TestNamedSortsObject("bb", 3),
                 new TestNamedSortsObject("f", 5),
                 new TestNamedSortsObject("a", 9)
-        );
+        };
 
         assertThat(list, contains(expectedResult));
 
         sc.changeSorting("mixed");
 
-        before = new Date();
+        Date before = new Date();
         list.sort(sc);
-        after = new Date();
-        expectedResult = Arrays.asList(
+        Date after = new Date();
+        expectedResult = expectedResult = new TestNamedSortsObject[]{
                 new TestNamedSortsObject("f", 5),
                 new TestNamedSortsObject("c", 2),
                 new TestNamedSortsObject("bb", 3),
                 new TestNamedSortsObject("aa", 1),
                 new TestNamedSortsObject("aa", 2),
                 new TestNamedSortsObject("a", 9)
-        );
+        };
 
         assertThat(list, contains(expectedResult));
+        tearDown(before, after);
     }
 
     @Test
     public void testChangeSorting2() throws Exception {
         SmartComparator<TestNamedSortsObject> sc = new SmartComparator<>(TestNamedSortsObject.class, "allASC");
         list.sort(sc);
-        List<TestNamedSortsObject> expectedResult = Arrays.asList(
+        TestNamedSortsObject[] expectedResult = new TestNamedSortsObject[]{
                 new TestNamedSortsObject("aa", 1),
                 new TestNamedSortsObject("aa", 2),
                 new TestNamedSortsObject("c", 2),
                 new TestNamedSortsObject("bb", 3),
                 new TestNamedSortsObject("f", 5),
                 new TestNamedSortsObject("a", 9)
-        );
+        };
 
         assertThat(list, contains(expectedResult));
 
         sc.changeSorting("mixed");
 
-        before = new Date();
-        Collections.sort(list, sc);
-        after = new Date();
-        expectedResult = Arrays.asList(
+        Date before = new Date();
+        list.sort(sc);
+        Date after = new Date();
+        expectedResult = new TestNamedSortsObject[]{
                 new TestNamedSortsObject("f", 5),
                 new TestNamedSortsObject("c", 2),
                 new TestNamedSortsObject("bb", 3),
                 new TestNamedSortsObject("aa", 1),
                 new TestNamedSortsObject("aa", 2),
                 new TestNamedSortsObject("a", 9)
-        );
+        };
 
         assertThat(list, contains(expectedResult));
+        tearDown(before, after);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
