@@ -47,7 +47,7 @@ public class SortTypeSmartComparatorTest {
     @Test
     public void testCompare() throws Exception {
         SmartComparator<TestSortTypeObject> sc = new SmartComparator<>(TestSortTypeObject.class);
-        Collections.sort(list, sc);
+        list.sort(sc);
         TestSortTypeObject[] expectedResult = new TestSortTypeObject[]{
                 new TestSortTypeObject("a", 9),
                 new TestSortTypeObject("f", 5),
@@ -62,7 +62,7 @@ public class SortTypeSmartComparatorTest {
     @Test
     public void testCompare2() throws Exception {
         SmartComparator<TestSortTypeObject> sc = new SmartComparator<>(TestSortTypeObject.class,true, new String[]{"number", "val"}, new SortType[]{SortType.DESC, SortType.ASC});
-        Collections.sort(list, sc);
+        list.sort(sc);
         TestSortTypeObject[] expectedResult = new TestSortTypeObject[]{
                 new TestSortTypeObject("a", 9),
                 new TestSortTypeObject("f", 5),
@@ -78,7 +78,7 @@ public class SortTypeSmartComparatorTest {
     @Test
     public void testCompare3() throws Exception {
         SmartComparator<TestSortTypeObject> sc = new SmartComparator<>(TestSortTypeObject.class,true, new String[]{"val", "number"}, new SortType[]{SortType.DESC, SortType.ASC});
-        Collections.sort(list, sc);
+        list.sort(sc);
         TestSortTypeObject[] expectedResult = new TestSortTypeObject[]{
                 new TestSortTypeObject("f", 5),
                 new TestSortTypeObject("c", 2),

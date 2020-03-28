@@ -4,11 +4,11 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.*;
 
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import smartcomparator.dataclasses.TestDataObject;
 import smartcomparator.dataclasses.TestNamedSortsObject;
+import smartcomparator.performance.PerformanceExecutor;
 
 import java.util.*;
 
@@ -33,15 +33,13 @@ public class DeclarativeSortingTests {
     }
 
 
-    public void tearDown(final Date before, final Date after) throws Exception {
-        System.err.println("time: " + (after.getTime() - before.getTime()));
-
-        list = null;
+    public void displayTime(final long time) throws Exception {
+        System.err.println("time: " + time);
     }
 
     @Test
     public void testCompare() throws Exception {
-        SmartComparator<TestNamedSortsObject> sc = new SmartComparator<>(TestNamedSortsObject.class, "allASC");
+        final SmartComparator<TestNamedSortsObject> sc = new SmartComparator<>(TestNamedSortsObject.class, "allASC");
 
         TestNamedSortsObject[] expectedResult = new TestNamedSortsObject[]{
                 new TestNamedSortsObject("aa", 1),
@@ -51,19 +49,17 @@ public class DeclarativeSortingTests {
                 new TestNamedSortsObject("f", 5),
                 new TestNamedSortsObject("a", 9)
         };
-        Date before = new Date();
-        list.sort(sc);
-        Date after = new Date();
+
+        displayTime(new PerformanceExecutor(()-> {
+            list.sort(sc);
+        }).calculateDuration());
         assertThat(list, contains(expectedResult));
-        tearDown(before, after);
     }
 
     @Test
     public void testCompare2() throws Exception {
-        SmartComparator<TestNamedSortsObject> sc = new SmartComparator<>(TestNamedSortsObject.class, "mixed");
-        Date before = new Date();
-        list.sort(sc);
-        Date after = new Date();
+        final SmartComparator<TestNamedSortsObject> sc = new SmartComparator<>(TestNamedSortsObject.class, "mixed");
+
         TestNamedSortsObject[] expectedResult = new TestNamedSortsObject[]{
                 new TestNamedSortsObject("f", 5),
                 new TestNamedSortsObject("c", 2),
@@ -72,8 +68,11 @@ public class DeclarativeSortingTests {
                 new TestNamedSortsObject("aa", 2),
                 new TestNamedSortsObject("a", 9)
         };
+
+        displayTime(new PerformanceExecutor(()-> {
+            list.sort(sc);
+        }).calculateDuration());
         assertThat(list, contains(expectedResult));
-        tearDown(before, after);
     }
 
     @Test
@@ -93,10 +92,10 @@ public class DeclarativeSortingTests {
 
         sc.changeSorting("mixed");
 
-        Date before = new Date();
-        list.sort(sc);
-        Date after = new Date();
-        expectedResult = expectedResult = new TestNamedSortsObject[]{
+        displayTime(new PerformanceExecutor(()-> {
+            list.sort(sc);
+        }).calculateDuration());
+        expectedResult = new TestNamedSortsObject[]{
                 new TestNamedSortsObject("f", 5),
                 new TestNamedSortsObject("c", 2),
                 new TestNamedSortsObject("bb", 3),
@@ -106,7 +105,6 @@ public class DeclarativeSortingTests {
         };
 
         assertThat(list, contains(expectedResult));
-        tearDown(before, after);
     }
 
     @Test
@@ -125,10 +123,6 @@ public class DeclarativeSortingTests {
         assertThat(list, contains(expectedResult));
 
         sc.changeSorting("mixed");
-
-        Date before = new Date();
-        list.sort(sc);
-        Date after = new Date();
         expectedResult = new TestNamedSortsObject[]{
                 new TestNamedSortsObject("f", 5),
                 new TestNamedSortsObject("c", 2),
@@ -137,9 +131,10 @@ public class DeclarativeSortingTests {
                 new TestNamedSortsObject("aa", 2),
                 new TestNamedSortsObject("a", 9)
         };
-
+        displayTime(new PerformanceExecutor(()-> {
+            list.sort(sc);
+        }).calculateDuration());
         assertThat(list, contains(expectedResult));
-        tearDown(before, after);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

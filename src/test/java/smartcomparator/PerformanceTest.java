@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import smartcomparator.dataclasses.TestStringObject;
 import smartcomparator.dataclasses.TestWrapper;
+import smartcomparator.performance.PerformanceExecutor;
 
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
@@ -145,14 +146,13 @@ public class PerformanceTest {
         for (int i = 0; i < numberOfRuns; i++) {
 
             setUp();
+            meanSc += new PerformanceExecutor(() -> {
+                scList.sort(sc);
+            }).calculateDuration();
+            meanStandard += new PerformanceExecutor(() -> {
+                nativeList.sort(nativeComparator);
+            }).calculateDuration();
 
-            Date before = new Date();
-            scList.sort(sc);
-            meanSc += new Date().getTime() - before.getTime();
-
-            before = new Date();
-            nativeList.sort(nativeComparator);
-            meanStandard += new Date().getTime() - before.getTime();
             assertThat(scList, equalTo(nativeList));
         }
         addPrimitive(meanSc / numberOfRuns);
@@ -180,13 +180,12 @@ public class PerformanceTest {
 
             setUp();
 
-            Date before = new Date();
-            scList.sort(sc);
-            meanSc += new Date().getTime() - before.getTime();
-
-            before = new Date();
-            nativeList.sort(nativeComparator);
-            meanStandard += new Date().getTime() - before.getTime();
+            meanSc += new PerformanceExecutor(() -> {
+                scList.sort(sc);
+            }).calculateDuration();
+            meanStandard += new PerformanceExecutor(() -> {
+                nativeList.sort(nativeComparator);
+            }).calculateDuration();
             assertThat(scList, equalTo(nativeList));
         }
 
@@ -211,13 +210,12 @@ public class PerformanceTest {
 
             setUp();
 
-            Date before = new Date();
-            scList.sort(sc);
-            meanSc += new Date().getTime() - before.getTime();
-
-            before = new Date();
-            nativeList.sort(nativeComparator);
-            meanStandard += new Date().getTime() - before.getTime();
+            meanSc += new PerformanceExecutor(() -> {
+                scList.sort(sc);
+            }).calculateDuration();
+            meanStandard += new PerformanceExecutor(() -> {
+                nativeList.sort(nativeComparator);
+            }).calculateDuration();
             assertThat(scList, equalTo(nativeList));
         }
 
@@ -242,13 +240,12 @@ public class PerformanceTest {
 
             setUp();
 
-            Date before = new Date();
-            scList.sort(sc);
-            meanSc += new Date().getTime() - before.getTime();
-
-            before = new Date();
-            nativeList.sort(nativeComparator);
-            meanStandard += new Date().getTime() - before.getTime();
+            meanSc += new PerformanceExecutor(() -> {
+                scList.sort(sc);
+            }).calculateDuration();
+            meanStandard += new PerformanceExecutor(() -> {
+                nativeList.sort(nativeComparator);
+            }).calculateDuration();
 
             assertThat(scList, equalTo(nativeList));
         }
@@ -274,13 +271,12 @@ public class PerformanceTest {
 
             setUp();
 
-            Date before = new Date();
-            scList.sort(sc);
-            meanSc += new Date().getTime() - before.getTime();
-
-            before = new Date();
-            nativeList.sort(nativeComparator);
-            meanStandard += new Date().getTime() - before.getTime();
+            meanSc += new PerformanceExecutor(() -> {
+                scList.sort(sc);
+            }).calculateDuration();
+            meanStandard += new PerformanceExecutor(() -> {
+                nativeList.sort(nativeComparator);
+            }).calculateDuration();
 
             assertThat(scList, equalTo(nativeList));
         }
@@ -305,13 +301,12 @@ public class PerformanceTest {
 
             setUp();
 
-            Date before = new Date();
-            scList.sort(sc);
-            meanSc += new Date().getTime() - before.getTime();
-
-            before = new Date();
-            nativeList.sort(nativeComparator);
-            meanStandard += new Date().getTime() - before.getTime();
+            meanSc += new PerformanceExecutor(() -> {
+                scList.sort(sc);
+            }).calculateDuration();
+            meanStandard += new PerformanceExecutor(() -> {
+                nativeList.sort(nativeComparator);
+            }).calculateDuration();
 
             assertThat(scList, equalTo(nativeList));
         }
@@ -336,13 +331,12 @@ public class PerformanceTest {
 
             setUp();
 
-            Date before = new Date();
-            scList.sort(sc);
-            meanSc += new Date().getTime() - before.getTime();
-
-            before = new Date();
-            nativeList.sort(nativeComparator);
-            meanStandard += new Date().getTime() - before.getTime();
+            meanSc += new PerformanceExecutor(() -> {
+                scList.sort(sc);
+            }).calculateDuration();
+            meanStandard += new PerformanceExecutor(() -> {
+                nativeList.sort(nativeComparator);
+            }).calculateDuration();
 
             assertThat(scList, equalTo(nativeList));
         }
@@ -367,13 +361,12 @@ public class PerformanceTest {
 
             setUp();
 
-            Date before = new Date();
-            scList.sort(sc);
-            meanSc += new Date().getTime() - before.getTime();
-
-            before = new Date();
-            nativeList.sort(nativeComparator);
-            meanStandard += new Date().getTime() - before.getTime();
+            meanSc += new PerformanceExecutor(() -> {
+                scList.sort(sc);
+            }).calculateDuration();
+            meanStandard += new PerformanceExecutor(() -> {
+                nativeList.sort(nativeComparator);
+            }).calculateDuration();
 
             assertThat(scList, equalTo(nativeList));
         }
@@ -398,13 +391,12 @@ public class PerformanceTest {
 
             setUp();
 
-            Date before = new Date();
-            scList.sort(sc);
-            meanSc += new Date().getTime() - before.getTime();
-
-            before = new Date();
-            nativeList.sort(nativeComparator);
-            meanStandard += new Date().getTime() - before.getTime();
+            meanSc += new PerformanceExecutor(() -> {
+                scList.sort(sc);
+            }).calculateDuration();
+            meanStandard += new PerformanceExecutor(() -> {
+                nativeList.sort(nativeComparator);
+            }).calculateDuration();
 
             assertThat(scList, equalTo(nativeList));
         }
@@ -429,13 +421,12 @@ public class PerformanceTest {
 
             setUp();
 
-            Date before = new Date();
-            scList.sort(sc);
-            meanSc += new Date().getTime() - before.getTime();
-
-            before = new Date();
-            nativeList.sort(nativeComparator);
-            meanStandard += new Date().getTime() - before.getTime();
+            meanSc += new PerformanceExecutor(() -> {
+                scList.sort(sc);
+            }).calculateDuration();
+            meanStandard += new PerformanceExecutor(() -> {
+                nativeList.sort(nativeComparator);
+            }).calculateDuration();
 
             assertThat(scList, equalTo(nativeList));
         }
@@ -460,13 +451,12 @@ public class PerformanceTest {
 
             setUp();
 
-            Date before = new Date();
-            scList.sort(sc);
-            meanSc += new Date().getTime() - before.getTime();
-
-            before = new Date();
-            nativeList.sort(nativeComparator);
-            meanStandard += new Date().getTime() - before.getTime();
+            meanSc += new PerformanceExecutor(() -> {
+                scList.sort(sc);
+            }).calculateDuration();
+            meanStandard += new PerformanceExecutor(() -> {
+                nativeList.sort(nativeComparator);
+            }).calculateDuration();
 
             assertThat(scList, equalTo(nativeList));
         }
@@ -491,13 +481,12 @@ public class PerformanceTest {
 
             setUp();
 
-            Date before = new Date();
-            scList.sort(sc);
-            meanSc += new Date().getTime() - before.getTime();
-
-            before = new Date();
-            nativeList.sort(nativeComparator);
-            meanStandard += new Date().getTime() - before.getTime();
+            meanSc += new PerformanceExecutor(() -> {
+                scList.sort(sc);
+            }).calculateDuration();
+            meanStandard += new PerformanceExecutor(() -> {
+                nativeList.sort(nativeComparator);
+            }).calculateDuration();
 
             assertThat(scList, equalTo(nativeList));
         }
@@ -523,13 +512,12 @@ public class PerformanceTest {
 
             setUp();
 
-            Date before = new Date();
-            scList.sort(sc);
-            meanSc += new Date().getTime() - before.getTime();
-
-            before = new Date();
-            nativeList.sort(nativeComparator);
-            meanStandard += new Date().getTime() - before.getTime();
+            meanSc += new PerformanceExecutor(() -> {
+                scList.sort(sc);
+            }).calculateDuration();
+            meanStandard += new PerformanceExecutor(() -> {
+                nativeList.sort(nativeComparator);
+            }).calculateDuration();
 
             assertThat(scList, equalTo(nativeList));
         }
@@ -556,13 +544,12 @@ public class PerformanceTest {
 
             setUp();
 
-            Date before = new Date();
-            scList.sort(sc);
-            meanSc += new Date().getTime() - before.getTime();
-
-            before = new Date();
-            nativeList.sort(nativeComparator);
-            meanStandard += new Date().getTime() - before.getTime();
+            meanSc += new PerformanceExecutor(() -> {
+                scList.sort(sc);
+            }).calculateDuration();
+            meanStandard += new PerformanceExecutor(() -> {
+                nativeList.sort(nativeComparator);
+            }).calculateDuration();
 
             assertThat(scList, equalTo(nativeList));
         }
@@ -591,21 +578,17 @@ public class PerformanceTest {
         double meanSc = 0;
         double meanStandard = 0;
 
-        List<TestStringObject> list;
 
-        List<TestStringObject> list2 = null;
         for (int idx = 0; idx < numberOfRuns; idx++) {
-            list = new ArrayList<>();
-
+            final List<TestStringObject> list = new ArrayList<>();
             for (int i = 0; i < 10000; i++) {
                 list.add(new TestStringObject(UUID.randomUUID().toString(), generator.nextInt()));
             }
-            list2 = new ArrayList<>(list);
-
-            SmartComparator<TestStringObject> sc = new SmartComparator<>(TestStringObject.class);
-            Date beforeSc = new Date();
-            list.sort(sc);
-            Date afterSc = new Date();
+            final List<TestStringObject> list2 = new ArrayList<>(list);
+            final SmartComparator<TestStringObject> sc = new SmartComparator<>(TestStringObject.class);
+            meanSc += new PerformanceExecutor(() -> {
+                list.sort(sc);
+            }).calculateDuration();
 
             Comparator<TestStringObject> standardComparator = (o1, o2) -> {
 
@@ -630,12 +613,11 @@ public class PerformanceTest {
                 return ret;
             };
 
-            Date beforeStandard = new Date();
-            list2.sort(standardComparator);
-            Date afterStandard = new Date();
 
-            meanSc += afterSc.getTime() - beforeSc.getTime();
-            meanStandard += afterStandard.getTime() - beforeStandard.getTime();
+            meanStandard += new PerformanceExecutor(() -> {
+                list2.sort(standardComparator);
+            }).calculateDuration();
+
             assertThat(list, equalTo(list2));
         }
 
