@@ -4,20 +4,14 @@ import smartcomparator.helperclasses.SortType;
 
 import java.lang.reflect.Method;
 
-/**
- * Created with IntelliJ IDEA.
- * User: fabian
- * Date: 26.10.13
- * Time: 01:50
- * To change this template use File | Settings | File Templates.
- */
+
 public class MethodNameRecord {
 
     private String methodName;
 
     private SortType sortType;
     Method method;
-    Class retType;
+    Class<?> retType;
 
     public void setMethodName(String methodName) {
         this.methodName = methodName;

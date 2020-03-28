@@ -63,7 +63,7 @@ public class PerformanceTest {
                 "|:-------------------|:--------------:|:------------------------:|:--------------------:|\n";
         bigTableBuffer.append(line);
 
-        line = "| **Typ**    | **Nativ [ms]** | **Wrapped [ms]** | **Ratio [Nativ/Wrapped]** |\n" +
+        line = "| **Typ**    | **Nativ [ms]** | **Wrapped [ms]** | **Ratio [Wrapped/Nativ]** |\n" +
                 "|:-----------|:--------------:|:----------------:|:-------------------------:|\n";
         smallTableBuffer.append(line);
     }
@@ -141,7 +141,7 @@ public class PerformanceTest {
 
         SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "nativeBoolean");
 
-        Comparator<TestWrapper> nativeComparator = (o1, o2) -> Boolean.valueOf(o1.isNativeBoolean()).compareTo(o2.isNativeBoolean());
+        Comparator<TestWrapper> nativeComparator = (o1, o2) -> Boolean.compare(o1.isNativeBoolean(), o2.isNativeBoolean());
 
         for (int i = 0; i < numberOfRuns; i++) {
 
@@ -169,12 +169,7 @@ public class PerformanceTest {
 
         SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "wrapperBoolean");
 
-        Comparator<TestWrapper> nativeComparator = new Comparator<TestWrapper>() {
-            @Override
-            public int compare(TestWrapper o1, TestWrapper o2) {
-                return o1.getWrapperBoolean().compareTo(o2.getWrapperBoolean());
-            }
-        };
+        Comparator<TestWrapper> nativeComparator = Comparator.comparing(TestWrapper::getWrapperBoolean);
 
         for (int i = 0; i < numberOfRuns; i++) {
 
@@ -204,7 +199,7 @@ public class PerformanceTest {
 
         SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "nativeChar");
 
-        Comparator<TestWrapper> nativeComparator = (o1, o2) -> Character.valueOf(o1.getNativeChar()).compareTo(o2.getNativeChar());
+        Comparator<TestWrapper> nativeComparator = Comparator.comparingInt(TestWrapper::getNativeChar);
 
         for (int i = 0; i < numberOfRuns; i++) {
 
@@ -234,7 +229,7 @@ public class PerformanceTest {
 
         SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "wrapperChar");
 
-        Comparator<TestWrapper> nativeComparator = (o1, o2) -> o1.getWrapperChar().compareTo(o2.getWrapperChar());
+        Comparator<TestWrapper> nativeComparator = Comparator.comparing(TestWrapper::getWrapperChar);
 
         for (int i = 0; i < numberOfRuns; i++) {
 
@@ -265,7 +260,7 @@ public class PerformanceTest {
 
         SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "nativeShort");
 
-        Comparator<TestWrapper> nativeComparator = (o1, o2) -> Short.valueOf(o1.getNativeShort()).compareTo(o2.getNativeShort());
+        Comparator<TestWrapper> nativeComparator = (o1, o2) -> Short.compare(o1.getNativeShort(), o2.getNativeShort());
 
         for (int i = 0; i < numberOfRuns; i++) {
 
@@ -295,7 +290,7 @@ public class PerformanceTest {
 
         SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "wrapperShort");
 
-        Comparator<TestWrapper> nativeComparator = (o1, o2) -> o1.getWrapperShort().compareTo(o2.getWrapperShort());
+        Comparator<TestWrapper> nativeComparator = Comparator.comparing(TestWrapper::getWrapperShort);
 
         for (int i = 0; i < numberOfRuns; i++) {
 
@@ -325,7 +320,7 @@ public class PerformanceTest {
 
         SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "nativeInt");
 
-        Comparator<TestWrapper> nativeComparator = (o1, o2) -> Integer.valueOf(o1.getNativeInt()).compareTo(o2.getNativeInt());
+        Comparator<TestWrapper> nativeComparator = Comparator.comparingInt(TestWrapper::getNativeInt);
 
         for (int i = 0; i < numberOfRuns; i++) {
 
@@ -355,7 +350,7 @@ public class PerformanceTest {
 
         SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "wrapperInt");
 
-        Comparator<TestWrapper> nativeComparator = (o1, o2) -> o1.getWrapperInt().compareTo(o2.getWrapperInt());
+        Comparator<TestWrapper> nativeComparator = Comparator.comparing(TestWrapper::getWrapperInt);
 
         for (int i = 0; i < numberOfRuns; i++) {
 
@@ -385,7 +380,7 @@ public class PerformanceTest {
 
         SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "nativeLong");
 
-        Comparator<TestWrapper> nativeComparator = (o1, o2) -> Long.valueOf(o1.getNativeLong()).compareTo(o2.getNativeLong());
+        Comparator<TestWrapper> nativeComparator = Comparator.comparingLong(TestWrapper::getNativeLong);
 
         for (int i = 0; i < numberOfRuns; i++) {
 
@@ -415,7 +410,7 @@ public class PerformanceTest {
 
         SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "wrapperLong");
 
-        Comparator<TestWrapper> nativeComparator = (o1, o2) -> o1.getWrapperLong().compareTo(o2.getWrapperLong());
+        Comparator<TestWrapper> nativeComparator = Comparator.comparing(TestWrapper::getWrapperLong);
 
         for (int i = 0; i < numberOfRuns; i++) {
 
@@ -445,7 +440,7 @@ public class PerformanceTest {
 
         SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "nativeFloat");
 
-        Comparator<TestWrapper> nativeComparator = (o1, o2) -> Float.valueOf(o1.getNativeFloat()).compareTo(o2.getNativeFloat());
+        Comparator<TestWrapper> nativeComparator = (o1, o2) -> Float.compare(o1.getNativeFloat(), o2.getNativeFloat());
 
         for (int i = 0; i < numberOfRuns; i++) {
 
@@ -475,7 +470,7 @@ public class PerformanceTest {
 
         SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "wrapperFloat");
 
-        Comparator<TestWrapper> nativeComparator = (o1, o2) -> o1.getWrapperFloat().compareTo(o2.getWrapperFloat());
+        Comparator<TestWrapper> nativeComparator = Comparator.comparing(TestWrapper::getWrapperFloat);
 
         for (int i = 0; i < numberOfRuns; i++) {
 
@@ -506,7 +501,7 @@ public class PerformanceTest {
 
         SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "nativeDouble");
 
-        Comparator<TestWrapper> nativeComparator = (o1, o2) -> Double.valueOf(o1.getNativeDouble()).compareTo(o2.getNativeDouble());
+        Comparator<TestWrapper> nativeComparator = Comparator.comparingDouble(TestWrapper::getNativeDouble);
 
         for (int i = 0; i < numberOfRuns; i++) {
 
@@ -538,7 +533,7 @@ public class PerformanceTest {
 
         SmartComparator<TestWrapper> sc = new SmartComparator<>(TestWrapper.class, "wrapperDouble");
 
-        Comparator<TestWrapper> nativeComparator = (o1, o2) -> o1.getWrapperDouble().compareTo(o2.getWrapperDouble());
+        Comparator<TestWrapper> nativeComparator = Comparator.comparing(TestWrapper::getWrapperDouble);
 
         for (int i = 0; i < numberOfRuns; i++) {
 
@@ -586,9 +581,7 @@ public class PerformanceTest {
             }
             final List<TestStringObject> list2 = new ArrayList<>(list);
             final SmartComparator<TestStringObject> sc = new SmartComparator<>(TestStringObject.class);
-            meanSc += new PerformanceExecutor(() -> {
-                list.sort(sc);
-            }).calculateDuration();
+            meanSc += new PerformanceExecutor(() -> list.sort(sc)).calculateDuration();
 
             Comparator<TestStringObject> standardComparator = (o1, o2) -> {
 
@@ -596,8 +589,14 @@ public class PerformanceTest {
                 if (o1 == null && o2 == null) {
                     return ret;
                 }
+                if (o1 == null) {
+                    return -1;
+                }
+                if (o2 == null) {
+                    return 1;
+                }
 
-                if (o1.getVal() == null && o1.getVal() == o2.getVal()) {
+                if (Objects.equals(o1.getVal(), o2.getVal())) {
                     return 0;
                 } else if (o1.getVal() != null) {
                     ret = o1.getVal().compareTo(o2.getVal());
@@ -608,7 +607,7 @@ public class PerformanceTest {
                     return -1;
                 }
 
-                ret = Integer.valueOf(o1.getVal2()).compareTo(o2.getVal2());
+                ret = Integer.compare(o1.getVal2(), o2.getVal2());
 
                 return ret;
             };
@@ -629,7 +628,7 @@ public class PerformanceTest {
     public void printResults() {
 
         bigTableBuffer.append("| total              |  ").append(reformatResult(totalNative / totalCounter)).append(" \t| ").append(reformatResult(totalSC / totalCounter)).append(" \t| ").append(reformatResult(totalSC / totalNative)).append(" \t| ");
-        smallTableBuffer.append("| total    \t| ").append(reformatResult(totalPrimitive / smallCounter)).append(" \t| ").append(reformatResult(totalWrapped / smallCounter)).append(" \t| ").append(reformatResult(totalNative / totalWrapped)).append("   \t|");
+        smallTableBuffer.append("| total    \t| ").append(reformatResult(totalPrimitive / smallCounter)).append(" \t| ").append(reformatResult(totalWrapped / smallCounter)).append(" \t| ").append(reformatResult(totalWrapped / totalNative )).append("   \t|");
         System.out.println();
         System.out.println(bigTableBuffer);
         System.out.println();
