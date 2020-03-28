@@ -1,5 +1,7 @@
 package smartcomparator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -35,6 +37,8 @@ public class PerformanceTest {
 
         numberOfMethods = count;
     }
+
+    private static Logger logger = LoggerFactory.getLogger(PerformanceTest.class);
 
     private List<TestWrapper> scList;
     private List<TestWrapper> nativeList;
@@ -118,7 +122,7 @@ public class PerformanceTest {
             line.append(" ");
         }
         line.append("| ");
-        System.out.print(line);
+        logger.info(line.toString());
         bigTableBuffer.append(line);
 
     }
@@ -127,7 +131,7 @@ public class PerformanceTest {
     public void tearDown() throws Exception {
         scList = null;
         nativeList = null;
-        System.out.println(String.format("%2.0f", ++progress * 100 / numberOfMethods) + "% |");
+        logger.info(String.format("%2.0f", ++progress * 100 / numberOfMethods) + "% |");
     }
 
     @Test
@@ -567,8 +571,8 @@ public class PerformanceTest {
 
     @Test(dependsOnMethods = "testWrapperDouble")
     public void testPerformance() throws Exception {
-
-        System.out.print("| testPerformance |");
+        StringBuilder sb = new StringBuilder();
+        sb.append("| testPerformance |");
         double numberOfRuns = 100;
         double meanSc = 0;
         double meanStandard = 0;
@@ -620,7 +624,8 @@ public class PerformanceTest {
             assertThat(list, equalTo(list2));
         }
 
-        System.out.print(" " + reformatResult(meanStandard / numberOfRuns) + " | " + reformatResult(meanSc / numberOfRuns) + " | " + reformatResult(meanSc / meanStandard) + " | ");
+        sb.append(" ").append(reformatResult(meanStandard / numberOfRuns)).append(" | ").append(reformatResult(meanSc / numberOfRuns)).append(" | ").append(reformatResult(meanSc / meanStandard)).append(" | ");
+        logger.info(sb.toString());
 
     }
 
@@ -629,13 +634,13 @@ public class PerformanceTest {
 
         bigTableBuffer.append("| total              |  ").append(reformatResult(totalNative / totalCounter)).append(" \t| ").append(reformatResult(totalSC / totalCounter)).append(" \t| ").append(reformatResult(totalSC / totalNative)).append(" \t| ");
         smallTableBuffer.append("| total    \t| ").append(reformatResult(totalPrimitive / smallCounter)).append(" \t| ").append(reformatResult(totalWrapped / smallCounter)).append(" \t| ").append(reformatResult(totalWrapped / totalNative )).append("   \t|");
-        System.out.println();
-        System.out.println(bigTableBuffer);
-        System.out.println();
-        System.out.println(smallTableBuffer);
-        System.out.println();
-        System.out.println(bigTableBuffer.toString().replaceAll(",", "."));
-        System.out.println();
-        System.out.println(smallTableBuffer.toString().replaceAll(",", "."));
+        logger.info("");
+        logger.info("\n" + bigTableBuffer.toString());
+        logger.info("");
+        logger.info("\n" + smallTableBuffer.toString());
+        logger.info("");
+        logger.info("\n" + bigTableBuffer.toString().replaceAll(",", "."));
+        logger.info("");
+        logger.info("\n" + smallTableBuffer.toString().replaceAll(",", "."));
     }
 }

@@ -8,20 +8,12 @@ import smartcomparator.dataclasses.TestSortTypeObject;
 import smartcomparator.helperclasses.SortType;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.equalTo;
 
-/**
- * Created with IntelliJ IDEA.
- * User: fabian
- * Date: 26.10.13
- * Time: 02:04
- * To change this template use File | Settings | File Templates.
- */
+
 public class SortTypeSmartComparatorTest {
 
     private List<TestSortTypeObject> list;

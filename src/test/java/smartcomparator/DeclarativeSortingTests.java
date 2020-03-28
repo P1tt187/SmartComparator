@@ -1,16 +1,19 @@
 package smartcomparator;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import smartcomparator.dataclasses.TestDataObject;
 import smartcomparator.dataclasses.TestNamedSortsObject;
 import smartcomparator.performance.PerformanceExecutor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.testng.Assert.fail;
 
 /**
  * @author Fabian Markert
@@ -18,6 +21,9 @@ import java.util.*;
  * Time: 00:09
  */
 public class DeclarativeSortingTests {
+
+    private static Logger logger = LoggerFactory.getLogger(DeclarativeSortingTests.class);
+
     private List<TestNamedSortsObject> list;
 
     @BeforeMethod
@@ -34,7 +40,7 @@ public class DeclarativeSortingTests {
 
 
     public void displayTime(final long time) throws Exception {
-        System.err.println("time: " + time);
+        logger.info("time: " + time);
     }
 
     @Test
