@@ -10,15 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: fabian
- * Date: 25.10.13
- * Time: 17:42
- * To change this template use File | Settings | File Templates.
- */
+
 public class NathenielsFreakSmartComparatorTest {
 
     private List<TestDataObject> list;
@@ -76,14 +70,8 @@ public class NathenielsFreakSmartComparatorTest {
                 }}
         };
         list.sort(sc);
-        boolean equal = true;
-        for (int i = 0; i < list.size(); i++) {
-            equal = list.get(i).hashCode() == expectedResult[i].hashCode();
-            if (!equal) {
-                break;
-            }
-        }
-        assertThat(equal, is(true));
+        assertThat(list.size(), is(expectedResult.length));
+        assertThat(list, contains(expectedResult));
     }
 
     @Test
@@ -111,14 +99,8 @@ public class NathenielsFreakSmartComparatorTest {
                 }}
         };
         list.sort(sc);
-        boolean equal = true;
-        for (int i = 0; i < list.size(); i++) {
-            equal = list.get(i).hashCode() == expectedResult[i].hashCode();
-            if (!equal) {
-                break;
-            }
-        }
-        assertThat(equal, is(true));
+        assertThat(list.size(), is(expectedResult.length));
+        assertThat(list, contains(expectedResult));
     }
 
     @Test
@@ -145,14 +127,8 @@ public class NathenielsFreakSmartComparatorTest {
                 }}
         };
         list.sort(sc);
-        boolean equal = true;
-        for (int i = 0; i < list.size(); i++) {
-            equal = list.get(i).hashCode() == expectedResult[i].hashCode();
-            if (!equal) {
-                break;
-            }
-        }
-        assertThat(equal, is(true));
+        assertThat(list.size(), is(expectedResult.length));
+        assertThat(list, contains(expectedResult));
     }
 
     @Test
@@ -179,14 +155,8 @@ public class NathenielsFreakSmartComparatorTest {
                 }}
         };
         list.sort(sc);
-        boolean equal = true;
-        for (int i = 0; i < list.size(); i++) {
-            equal = list.get(i).hashCode() == expectedResult[i].hashCode();
-            if (!equal) {
-                break;
-            }
-        }
-        assertThat(equal, is(true));
+        assertThat(list.size(), is(expectedResult.length));
+        assertThat(list, contains(expectedResult));
     }
 
     @Test
@@ -196,13 +166,7 @@ public class NathenielsFreakSmartComparatorTest {
 
         list.sort(sc);
 
-        boolean equal = true;
-        for (int i = 0; i < list.size(); i++) {
-            equal = list.get(i).hashCode() == expectedResult[i].hashCode();
-            if (!equal) {
-                break;
-            }
-        }
-        assertThat(equal, is(false));
+        assertThat(list.size(), is(expectedResult.length));
+        assertThat(list, not(contains(expectedResult)));
     }
 }

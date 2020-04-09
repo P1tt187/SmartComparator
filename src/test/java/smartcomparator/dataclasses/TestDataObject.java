@@ -1,5 +1,7 @@
 package smartcomparator.dataclasses;
 
+import java.util.Objects;
+
 /**
  * Created with IntelliJ IDEA.
  * User: fabian
@@ -57,21 +59,17 @@ public class TestDataObject {
 
     @Override
     public String toString() {
-        return "[" + Integer.toString(val1) + " , " + val2.toString() + "]";
+        return "[" + val1 + " , " + val2.toString() + "]";
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (!(o instanceof TestDataObject)) return false;
         TestDataObject that = (TestDataObject) o;
-
-        if (val1 != that.val1) return false;
-        if (val2 != null ? !val2.equals(that.val2) : that.val2 != null) return false;
-        if (val3 != null ? !val3.equals(that.val3) : that.val3 != null) return false;
-
-        return true;
+        return val1 == that.val1 &&
+                Objects.equals(val2, that.val2) &&
+                Objects.equals(val3, that.val3);
     }
 
     @Override
